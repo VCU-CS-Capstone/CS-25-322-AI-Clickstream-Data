@@ -23,4 +23,4 @@ a better understanding of the problems you encountered during the development of
 - *Student's Name* - *major* - Student Team Member
 - *Student's Name* - *major* - Student Team Member
 - *Student's Name* - *major* - Student Team Member
-- *Student's Name* - *major* - Student Team Member
+- *Ivan Emdee* - *Computer Science* - Student Team Member
