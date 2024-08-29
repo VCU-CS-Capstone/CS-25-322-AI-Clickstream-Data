@@ -1,6 +1,7 @@
 # *Project Description*
 Problem Statement: As a platform stakeholder, how can I leverage clickstream data to provide observations/recommendations in roadmap planning?
-## *Sponsor: Capital One*
+## *Project Sponsor*
+Capital One
 ## *Short Project Description*
 The directory structure in this GitHub is to allow the project to have all its resources self-contained.
 Open Source software should not just be a repository of code.  There are a number of directories to help you and others who will 
