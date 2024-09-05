@@ -1,7 +1,7 @@
 # *CS 25-322 AI Generated Planning Insights Powered by Clickstream Data*
 Problem Statement: As a platform stakeholder, how can I leverage clickstream data to provide observations/recommendations in roadmap planning?
-## *Project Sponsor*
-Capital One
+## *Project Sponsor: Capital One*
+
 ## *Project Description*
 
 Acceptance criteria for the project includes: 
