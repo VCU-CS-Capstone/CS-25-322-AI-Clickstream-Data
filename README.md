@@ -2,7 +2,7 @@
 Problem Statement: As a platform stakeholder, how can I leverage clickstream data to provide observations/recommendations in roadmap planning?
 ## *Project Sponsor*
 Capital One
-## *Short Project Description*
+## *Project Description*
 
 Acceptance criteria for the project includes: 
 1. Creating a basic web application with clickstream enabled. This will give us the opportunity to work with a new coding language and better understand Clickstream.
