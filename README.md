@@ -19,6 +19,8 @@ a better understanding of the problems you encountered during the development of
 **Note:** Commits behind this fork could be automatically synced, meaning that changes made in the template are pushed into your repo. Please do not discard commits ahead (these are the updates you make to this repository).
 
 ## Project Team
+- *Tyler Jordan*  - *Capital One* - Mentor
+- *Emily Corxall*  - *Capital One* - Mentor
 - *Mahesh Nair*  - *Capital One* - Mentor
 - *Thomas Gyeera* - *Computer Science* - Faculty Advisor
 - *Carissa Trieu* - *Computer Science* - Student Team Member
