@@ -1,13 +1,13 @@
-# *CSnnn Project Name*
-## **Sponsor:**
+# *CS 25-322*
+## **Sponsor: Capital One**
 
-**Students' Names:**
+**Students' Names: Carissa Trieu, Priya Choudhary, Bindi Patel, Ivan Emdee**
 
-**Mentor:**
+**Mentor: Mahesh Nair, Tyler Jordan, Emily Corxall**
 
-**Faculty Advisor:**
+**Faculty Advisor: Thomas Gyeera**
 
-**Project:**
+**Project: AI Generated Planning Insights Powered by Clickstream Data**
 
 **Project Description:**
 
