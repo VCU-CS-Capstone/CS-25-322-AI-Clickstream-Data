@@ -36,3 +36,132 @@
     transform: rotate(360deg);
   }
 }
+
+/* New banner styles */
+
+.banner {
+  border: 1px solid black;  /* Creates a black border around the banner */
+  padding: 20px;            /* Adds padding inside the banner */
+  display: flex;            /* Use flexbox for layout */
+  justify-content: space-between;  /* Distribute items with space between */
+  align-items: center;      /* Center align items vertically */
+  width: 100%;              /* Ensure the banner stretches across the screen */
+}
+
+.banner h1 {
+  font-size: 2rem;           /* Font size for the title */
+  margin: 0;
+}
+
+.banner p {
+  font-size: 1.1rem;         /* Font size for the subtitle */
+  margin-top: 10px;
+}
+
+.banner-button {
+  background-color: white; /* Button background color */
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border: 1px solid black;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.banner-button:hover {
+  background-color: #1b8de488; /* Change color on hover */
+}
+
+/* Text Above Search Bar */
+.search-text {
+  text-align: center;  /* Center align the text */
+  margin-top: 100px;     /* Add margin above the text */
+  font-size: 3.7rem;    /* Adjust font size */
+  color: #333;          /* Dark text color */
+}
+
+/* Search Bar Container */
+.search-container {
+  display: flex;             /* Use flexbox to align the search bar and button */
+  justify-content: center;   /* Center the search bar horizontally */
+  margin-top: 70px;          /* Adds space above the search bar */
+}
+
+/* Styling for the search input field */
+.search-bar {
+  width: 900px;              /* Set a fixed width for the search bar */
+  padding: 20px;             /* Padding inside the input field */
+  font-size: 1rem;           /* Font size of the text inside the search bar */
+  border: 2px solid #811111;    /* Border for the search bar */
+  border-radius: 5px;        /* Rounded corners */
+  margin-right: 10px;        /* Space between the input and button */
+}
+
+/* Styling for the search button */
+.search-button {
+  background-color: #e93232; /* red background for the button */
+  color: white;
+  padding: 20px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #a51414; /* Darker red on hover */
+}
+
+/* Bottom Banner Styling */
+.bottom-banner {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.1); /* Light background */
+  padding: 10px 0; 
+  display: flex;
+  flex-direction: column; /* Stack title and buttons vertically */
+  align-items: center;
+  text-align: center;
+  z-index: 100;
+}
+
+/* Title and text for bottom banner */
+.bottom-banner-title {
+  color: black;
+  font-size: 2.5rem;
+  margin-bottom: 60px;
+}
+
+/* Button Container for horizontal alignment */
+.button-container {
+  display: flex;               /* Arrange buttons horizontally */
+  justify-content: center;     /* Center them within the banner */
+  gap: 25px;                   /* Space between buttons */
+}
+
+/* Bottom banner buttons styling */
+.bottom-banner-button {
+  background-color: white;
+  color: black;
+  padding: 90px 40px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.bottom-banner-button:hover {
+  background-color: #0000005a;
+}
+
+/* Styling for button images */
+.button-icon {
+  width: 100px;
+  height: 100px;
+  margin-right: 25px; /* Space between the icon and text */
+}
