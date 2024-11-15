@@ -41,7 +41,6 @@ function App() {
         {/* Title Above Buttons */}
         <h2 className="bottom-banner-title">CHOOSE A HELP TOPIC</h2>
         
-        
         {/* Buttons with Images in Horizontal Layout */}
         <div className="button-container">
           <button className="bottom-banner-button">
@@ -57,8 +56,8 @@ function App() {
             Auto Financing
           </button>
           <button className="bottom-banner-button">
-            <img src={travelIcon} alt="Travel" className="button-icon" />
-            Travel
+            <img src={travelIcon} alt="Capital One Travel" className="button-icon" />
+            Capital One Travel
           </button>
         </div>
       </div>

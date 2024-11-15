@@ -5,81 +5,66 @@
   text-align: center;
 }
 
-/* New banner styles */
-
+/* Banner styling */
 .banner {
-  border: 1px solid black;  /* Creates a black border around the banner */
-  padding: 20px;            /* Adds padding inside the banner */
-  display: flex;            /* Use flexbox for layout */
-  justify-content: space-between;  /* Distribute items with space between */
-  align-items: center;      /* Center align items vertically */
-  width: 100%;              /* Ensure the banner stretches across the screen */
+  border: 1px solid black;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: #f8f8f8;
 }
 
-.banner h1 {
-  font-size: 2rem;           /* Font size for the title */
-  margin: 0;
-}
-
-.banner p {
-  font-size: 1.1rem;         /* Font size for the subtitle */
-  margin-top: 10px;
-}
-
+/* Styling for the buttons inside the top banner */
 .banner-button {
-  background-color: white; /* Button background color */
+  background-color: white;
   color: black;
-  border: none;
   padding: 10px 20px;
   border: 1px solid black;
-  font-size: 1rem;
   border-radius: 5px;
+  font-size: 1rem;
   cursor: pointer;
   margin: 5px;
 }
 
 .banner-button:hover {
-  background-color: #1b8de488; /* Change color on hover */
+  background-color: #00000023;
+  border-color: #00000023;
 }
 
-/* Text Above Search Bar */
+/* Search Bar Section */
 .search-text {
-  text-align: center;  /* Center align the text */
-  margin-top: 100px;     /* Add margin above the text */
-  font-size: 3.7rem;    /* Adjust font size */
-  color: #333;          /* Dark text color */
+  font-size: 3rem;
+  margin: 20px 0;
 }
 
-/* Search Bar Container */
 .search-container {
-  display: flex;             /* Use flexbox to align the search bar and button */
-  justify-content: center;   /* Center the search bar horizontally */
-  margin-top: 70px;          /* Adds space above the search bar */
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
-/* Styling for the search input field */
 .search-bar {
-  width: 900px;              /* Set a fixed width for the search bar */
-  padding: 20px;             /* Padding inside the input field */
-  font-size: 1rem;           /* Font size of the text inside the search bar */
-  border: 2px solid #811111;    /* Border for the search bar */
-  border-radius: 5px;        /* Rounded corners */
-  margin-right: 10px;        /* Space between the input and button */
+  width: 50%;
+  padding: 20px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
 }
 
-/* Styling for the search button */
 .search-button {
-  background-color: #e93232; /* red background for the button */
-  color: white;
-  padding: 20px 20px;
-  border: none;
-  border-radius: 5px;
+  padding: 10px 20px;
   font-size: 1rem;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.256);
+  border: none;
+  border-radius: 0 5px 5px 0;
   cursor: pointer;
 }
 
 .search-button:hover {
-  background-color: #a51414; /* Darker red on hover */
+  background-color: #0000002e;
 }
 
 /* Bottom Banner Styling */
@@ -88,7 +73,7 @@
   bottom: 0;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.1); /* Light background */
-  padding: 10px 0; 
+  padding: 40px 0; 
   display: flex;
   flex-direction: column; /* Stack title and buttons vertically */
   align-items: center;
@@ -99,28 +84,30 @@
 /* Title and text for bottom banner */
 .bottom-banner-title {
   color: black;
-  font-size: 2.5rem;
-  margin-bottom: 60px;
+  font-size: 1.5rem;
+  margin-bottom:40px;
 }
 
 /* Button Container for horizontal alignment */
 .button-container {
   display: flex;               /* Arrange buttons horizontally */
   justify-content: center;     /* Center them within the banner */
-  gap: 25px;                   /* Space between buttons */
+  gap: 45px;                   /* Space between buttons */
 }
 
 /* Bottom banner buttons styling */
 .bottom-banner-button {
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0.044);
   color: black;
-  padding: 90px 40px;
+  padding: 70px 70px;
   border: none;
   border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
   display: flex;
-  align-items: center;
+  flex-direction: column;       /* Stack icon above text */
+  align-items: center;          /* Center content horizontally */
+  text-align: center;
 }
 
 .bottom-banner-button:hover {
@@ -129,7 +116,7 @@
 
 /* Styling for button images */
 .button-icon {
-  width: 100px;
-  height: 100px;
-  margin-right: 25px; /* Space between the icon and text */
+  width: 130px;                  /* Adjust width as needed */
+  height: 130px;                 /* Adjust height as needed */
+  margin-bottom: 8px;           /* Space between the icon and the text */
 }
