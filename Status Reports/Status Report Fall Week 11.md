@@ -1,4 +1,4 @@
-# *CS 25-XXX Project Name*
+# *CS 25-322 Project Name*
 
 **Students' Names:** Priya Choudhary, Carrisa Trieu, Ivan Emdee, Bindi Patel
 
