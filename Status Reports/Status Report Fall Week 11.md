@@ -1,4 +1,4 @@
-# *CS 25-322 Project Name*
+# *CS 25-322 AI Generated Planning Insights Powered by Clickstream Data*
 
 **Students' Names:** Priya Choudhary, Carrisa Trieu, Ivan Emdee, Bindi Patel
 
