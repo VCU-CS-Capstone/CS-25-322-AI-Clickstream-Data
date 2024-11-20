@@ -1,21 +1,21 @@
-# *CS 25-XXX Project Name*
+# *CS 25-322 AI Generated Planning Insights Powered by Clickstream Data*
 
-**Students' Names:**
+**Students' Names: Carissa Trieu, Priya Choudhary, Bindi Patel, Ivan Emdee**
 
-**Mentor:**
+**Mentor: Mahesh Nair, Tyler Jordan, Emily Corxall**
 
-**Faculty Advisor:**
+**Faculty Advisor:Thomas Gyeera**
 
 ## 1) Accomplishments this week ##
-   - investigate databases done by student A
-   - make flowcharts done by students A and B
+   - Begin to develop front-end for website prototype
+   - Continue to work on design poster
 
 ## 2) Milestones to be completed next week ##
-   - debug the code to be performed by student C
+   - Finalize and turn in Fall Design Poster
+   - Continue developing website prototype
 
 ## 3) Issues, problems or concerns ##
-   - student C needs to learn java
-   - database repository costs big $$$
+   - No current issues or concerns
    
 
 
