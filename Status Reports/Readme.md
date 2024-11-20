@@ -12,14 +12,14 @@ Status Report Fall Week XX.md is a template for to copy-paste into new Status re
 | Document | Tasks | Accomplishments | Issues |
 |---|---|---|---|
 | Week 1 Status Report | Hold a meeting with team members, hold a meeting with faculty advisor, hold a meeting with project sponsor, complete Team Contract | Completed all tasks | N/A |
-| Week 2 Status Report | | | |
-| Week 3 Status Report | | | |
-| Week 4 Status Report | | | |
-| Week 5 Status Report | | | |
-| Week 6 Status Report | | | |
-| Week 7 Status Report | | | |
-| Week 8 Status Report | | | |
-| Week 9 Status Report | | | |
+| Week 2 Status Report |Set up GitHub Repo | | |
+| Week 3 Status Report |Look into academic papers and share findings| | |
+| Week 4 Status Report |Work on creating presentation for Project Proposal | | |
+| Week 5 Status Report |Complete 451 Quiz 1 | | |
+| Week 6 Status Report |Finalize and Turn In Project Proposal, Prepare for in-person Capital One Demo| | |
+| Week 7 Status Report |Research and learn tools for website development | | |
+| Week 8 Status Report |Continue learning front end and back end tools| | |
+| Week 9 Status Report |Begin creating Fall Design Poster | | |
 | Week 10 Status Report | | | |
 | Week 11 Status Report | | | |
 | Week 12 Status Report | | | |
