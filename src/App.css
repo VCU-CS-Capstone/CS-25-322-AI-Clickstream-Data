@@ -8,14 +8,16 @@
 /* Banner styling */
 .banner {
   border: 1px solid black;
-  padding: 20px;
+  padding: 10px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
   background-color: #f8f8f8;
 }
-
+.banner h1 {
+  margin-right: 25px;
+}
 /* Styling for the buttons inside the top banner */
 .banner-button {
   background-color: white;
@@ -23,7 +25,7 @@
   padding: 10px 20px;
   border: 1px solid black;
   border-radius: 5px;
-  font-size: 1rem;
+  font-size: 0.8rem;
   cursor: pointer;
   margin: 5px;
 }
@@ -69,12 +71,13 @@
 
 /* Bottom Banner Styling */
 .bottom-banner {
-  position: fixed;
+  position: relative;
   bottom: 0;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.1); /* Light background */
   padding: 40px 0; 
   display: flex;
+  margin-top: 70px;
   flex-direction: column; /* Stack title and buttons vertically */
   align-items: center;
   text-align: center;
