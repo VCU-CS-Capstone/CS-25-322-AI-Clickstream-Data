@@ -1,6 +1,3 @@
-/* src/App.css */
-
-/* General App styling */
 .App {
   text-align: center;
 }
@@ -113,7 +110,7 @@
   text-align: center;
 }
 
-.bottom-banner-button:hover {
+.bottom-banner-button:hover, .recommended-button:hover {
   background-color: #0000005a;
 }
 
@@ -122,4 +119,40 @@
   width: 130px;                  /* Adjust width as needed */
   height: 130px;                 /* Adjust height as needed */
   margin-bottom: 8px;           /* Space between the icon and the text */
+}
+
+.recommended-topics {
+  padding: 40px 20px;
+  background-color: #f8f8f8;
+  text-align:center;
+}
+
+.button2-container {
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 45px;
+  justify-items: center;
+}
+
+.recommended-button {
+  width: 300px; /* Adjust as needed for the desired card size */
+  height: auto; /* Allow the card height to grow as needed */
+  background-color: white;
+  color: black;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+  align-items: flex-start; /* Align content to the left */
+  text-align: left; /* Align text to the left */
+}
+
+.recommended-button .button-icon {
+  width: 60px; /* Reduce width of the image */
+  height: 60px; /* Reduce height of the image */
+  margin-bottom: 15px; /* Space between the image and the title */
 }
