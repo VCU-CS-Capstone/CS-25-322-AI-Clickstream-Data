@@ -17,7 +17,7 @@ import topic6 from './assets/6.png';
 import topic7 from './assets/7.png';
 import topic8 from './assets/8.png';
 
-ReactGA.initialize(‘G-WJQH6XRPEC’);
+ReactGA.initialize(‘G-1NFCNQ46LT’);
 ReactGA.send('pageview');
 
 function App() {
