@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { useLocation, useEffect, BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 import Redirect from './Redirect'; 
 import ReactGA from 'react-ga4';
