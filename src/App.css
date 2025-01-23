@@ -1,45 +1,87 @@
-/* General Styles */
-body {
-  font-family: Arial, sans-serif;
+/* Reset styles to ensure proper layout */
+* {
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
-  color: #333;
+  box-sizing: border-box;
 }
 
-.header {
+/* Top Navigation Banner */
+.nav-banner {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 30px;
   background-color: white;
+  padding: 15px 30px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
 }
 
 .logo {
   height: 40px;
 }
 
-.nav a {
-  margin: 0 15px;
-  color: #007bff;
-  text-decoration: none;
-  font-weight: bold;
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  gap: 20px;
 }
 
-.nav a:hover {
+.nav-links a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #007bff;
+  font-size: 14px;
+}
+
+.nav-links a:hover {
   text-decoration: underline;
 }
 
+/* Right Icons (Search, Location, User) */
+.right-section {
+  display: flex;
+  gap: 10px;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.icon-button img {
+  height: 20px;
+  width: 20px;
+}
+
+/* Fix Search Section Alignment */
 .search-section {
   text-align: center;
-  padding: 50px 20px;
+  padding: 120px 20px 50px;
   background-color: white;
+  margin-top: 0;
 }
 
 .search-section h1 {
   font-size: 28px;
   margin-bottom: 20px;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .search-bar {
@@ -49,6 +91,21 @@ body {
   border-radius: 5px;
 }
 
+.search-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.search-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Help Topics Section */
 .help-topics {
   padding: 30px 20px;
   background-color: #f0f0f0;
@@ -74,6 +131,15 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 220px;
+  text-decoration: none;
+  color: black;
+  display: block;
+  transition: transform 0.2s ease-in-out;
+}
+
+.topic:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .topic img {
@@ -91,12 +157,41 @@ body {
   color: #666;
 }
 
-.topic a {
+.topic span {
   color: #007bff;
-  text-decoration: none;
   font-weight: bold;
 }
 
-.topic a:hover {
+.topic span:hover {
   text-decoration: underline;
+}
+
+/* Fix Help Page Layout */
+.help-page {
+  text-align: center;
+  padding: 50px;
+  background-color: white;
+}
+
+.help-page h1 {
+  font-size: 32px;
+}
+
+.help-page p {
+  font-size: 18px;
+  color: #666;
+}
+
+.help-page a {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.help-page a:hover {
+  background-color: #0056b3;
 }
