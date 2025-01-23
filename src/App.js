@@ -41,7 +41,7 @@ function App() {
       label: buttonName,
     });    
   
-    fetch('http://testtest.on.render.com/log-click', {
+    fetch('http://testtest-hh2d.onrender.com/log-click', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
