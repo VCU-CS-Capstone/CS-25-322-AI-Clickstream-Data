@@ -12,7 +12,7 @@ import locationIcon from './assets/location.png';
 import userIcon from './assets/user.png';
 
 // Initialize Google Analytics with your Measurement ID
-ReactGA.initialize('G-WBTJJXYXWX'); // Replace with your actual GA4 Measurement ID
+ReactGA.initialize('G-KYFH698P0M'); // Replace with your actual GA4 Measurement ID
 
 function HelpPage() {
   return (
