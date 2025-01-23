@@ -1,0 +1,31 @@
+.redirect-page {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: #f9f9f9;
+  color: #002b5c;
+}
+
+.redirect-page h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.redirect-page p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.go-back-button {
+  background-color: #002b5c;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.go-back-button:hover {
+  background-color: #001d3d;
+}
