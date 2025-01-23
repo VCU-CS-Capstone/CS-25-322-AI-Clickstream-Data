@@ -34,8 +34,14 @@ function App() {
   const logClick = (buttonName) => {
     const sessionId = localStorage.getItem('sessionId') || generateSessionId();
     localStorage.setItem('sessionId', sessionId);
+
+    ReactGA.event({
+      category: 'Button Click',
+      action: 'Clicked',
+      label: buttonName,
+    });    
   
-    fetch('http://localhost:3001/log-click', {
+    fetch('http://testtest.on.render.com/log-click', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -43,7 +49,7 @@ function App() {
         buttonName: buttonName,
         clickTime: new Date().toISOString(),
       }),
-    });
+    }).catch((error) => console.error('Error logging click:', error));
   };
   
   const generateSessionId = () => {
