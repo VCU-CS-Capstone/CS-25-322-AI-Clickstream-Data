@@ -1,5 +1,6 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import ReactGA from 'react-ga4';
 import './App.css';
 import creditCardIcon from './assets/card.png';
 import bankAccountIcon from './assets/check.png';
@@ -10,6 +11,9 @@ import searchIcon from './assets/search.png';
 import locationIcon from './assets/location.png';
 import userIcon from './assets/user.png';
 
+// Initialize Google Analytics with your Measurement ID
+ReactGA.initialize('G-WBTJJXYXWX'); // Replace with your actual GA4 Measurement ID
+
 function HelpPage() {
   return (
     <div className="help-page">
@@ -18,6 +22,15 @@ function HelpPage() {
       <Link to="/">Go Back</Link>
     </div>
   );
+}
+
+// Track page views whenever the route changes
+function usePageTracking() {
+  const location = useLocation();
+
+  useEffect(() => {
+    ReactGA.send({ hitType: 'pageview', page: location.pathname });
+  }, [location]);
 }
 
 function HomePage() {
@@ -100,6 +113,7 @@ function HomePage() {
 function App() {
   return (
     <Router>
+      <usePageTracking /> {/* Track page views */}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/help-page" element={<HelpPage />} />
