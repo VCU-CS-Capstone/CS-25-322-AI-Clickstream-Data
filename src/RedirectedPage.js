@@ -31,7 +31,7 @@ const RedirectedPage = () => {
           <a href="mailto:support@yourbank.com" className="icon-button">
             <img src={require('./assets/search.png')} alt="Email" className="icon-image" />
           </a>
-          <Link to="/redirect" className="icon-button" onClick={() => handleButtonClick('Support Icon')}>
+          <Link to="/redirect" className="icon-button" onClick={() => handleBackButtonClick('Support Icon')}>
             <img src={require('./assets/person.png')} alt="Support" className="icon-image" />
           </Link>
         </div>
