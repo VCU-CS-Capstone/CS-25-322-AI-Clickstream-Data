@@ -35,7 +35,7 @@ const RedirectedPage = () => {
       {/* Redirected Message Section */}
       <div className="redirected-message-container">
         <h2>You have been redirected!</h2>
-        <p>This page is under construction. Please return to the home page for assistance.</p>
+        <p>Please return to the home page for assistance.</p>
         <Link to="/">
           <button className="back-button">Go Back to Home Page</button>
         </Link>
