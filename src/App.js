@@ -12,7 +12,6 @@ import loanIcon from './assets/loan.png';
 import chatIcon from './assets/rep.png';
 import atmIcon from './assets/atm.png';
 import bannerImage from './assets/banner.png';
-
 import ReactGA from 'react-ga4';
 
 ReactGA.initialize('G-FY1PRXB9ZW'); 
@@ -51,6 +50,7 @@ const App = () => {
   };
 
   const handleButtonClick = (buttonName) => {
+    console.log(`Button clicked: ${buttonName}`);
     ReactGA.event({
       category: 'Button Click',
       action: 'Clicked',
