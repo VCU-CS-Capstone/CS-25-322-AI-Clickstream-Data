@@ -15,7 +15,7 @@ import bannerImage from './assets/banner.png';
 
 import ReactGA from 'react-ga4';
 
-ReactGA.initialize('G-XXXXXXXXXX'); 
+ReactGA.initialize('G-FY1PRXB9ZW'); 
 ReactGA.send('pageview'); 
 
 const TrackPageView = () => {
