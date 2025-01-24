@@ -11,20 +11,21 @@ import fraudIcon from './assets/fraud.png';
 import loanIcon from './assets/loan.png';
 import chatIcon from './assets/rep.png';
 import atmIcon from './assets/atm.png';
+import bannerImage from './assets/banner.png';
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredTopics, setFilteredTopics] = useState([]);
 
   const topics = [
-    { name: 'Credit Cards', icon: creditCardIcon },
-    { name: 'Bank Accounts', icon: bankAccountIcon },
-    { name: 'Auto Financing', icon: autoIcon },
-    { name: 'Travel Services', icon: travelIcon },
-    { name: 'Report Fraud', icon: fraudIcon },
-    { name: 'Apply for a Loan', icon: loanIcon },
-    { name: 'Chat with Us', icon: chatIcon },
-    { name: 'Find ATM/Branch', icon: atmIcon },
+    { name: 'Credit Cards', icon: creditCardIcon, description: 'Manage your credit card accounts' },
+    { name: 'Bank Accounts', icon: bankAccountIcon, description: 'View and manage your bank accounts' },
+    { name: 'Auto Financing', icon: autoIcon, description: 'Explore auto loan options' },
+    { name: 'Travel Services', icon: travelIcon, description: 'Book and manage your travel plans' },
+    { name: 'Report Fraud', icon: fraudIcon, description: 'Report suspicious activity or fraud' },
+    { name: 'Apply for a Loan', icon: loanIcon, description: 'Apply for personal or business loans' },
+    { name: 'Chat with Us', icon: chatIcon, description: 'Get assistance from a representative' },
+    { name: 'Find ATM/Branch', icon: atmIcon, description: 'Locate ATMs and branches near you' },
   ];
 
   const handleSearch = () => {
@@ -36,61 +37,73 @@ const App = () => {
 
   return (
     <Router>
-      <div className="App">
-        {/* Top Banner */}
-        <div className="banner">
-          <div className="banner-left">
-            <img src={logo} alt="Bank Logo" className="banner-logo" />
-            <span className="bank-name">LowercaseOne</span>
-          </div>
-          <h1 className="banner-title">Customer Service</h1>
-          <div className="banner-right">
-            <button className="help-button">Support</button>
-            <button className="help-button">Contact</button>
-            <button className="help-button">Help</button>
-          </div>
-        </div>
+      <Routes>
+        {/* Home Page */}
+        <Route
+          path="/"
+          element={
+            <div className="App">
+              {/* Top Banner */}
+              <div className="banner">
+                <div className="banner-left">
+                  <img src={logo} alt="Bank Logo" className="banner-logo" />
+                  <span className="bank-name">LowercaseOne</span>
+                </div>
+                <h1 className="banner-title">Customer Service</h1>
+                <div className="banner-right">
+                  <a href="tel:+123456789" className="icon-button">
+                    <img src={require('./assets/location.png')} alt="Phone" className="icon-image" />
+                  </a>
+                  <a href="mailto:support@yourbank.com" className="icon-button">
+                    <img src={require('./assets/search.png')} alt="Email" className="icon-image" />
+                  </a>
+                  <a href="/support" className="icon-button">
+                    <img src={require('./assets/person.png')} alt="Support" className="icon-image" />
+                  </a>
+                </div>
+              </div>
 
-        {/* Search Section */}
-        <div className="search-container">
-          <input
-            type="text"
-            className="search-bar"
-            placeholder="Search help topics"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button className="search-button" onClick={handleSearch}>
-            Search
-          </button>
-        </div>
+              {/* Banner Image Section */}
+              <div className="banner-image-container">
+                <img src={bannerImage} alt="Promotional Banner" className="banner-image" />
+              </div>
 
-        {/* Help Topics Section */}
-        <div className="bottom-banner">
-          <h2 className="bottom-banner-title">Choose a Help Topic</h2>
-          <div className="button-container">
-            {(filteredTopics.length > 0 ? filteredTopics : topics).map(
-              (topic, index) => (
-                <Link to="/redirect" key={index}>
-                  <button className="bottom-banner-button">
-                    <img
-                      src={topic.icon}
-                      alt={topic.name}
-                      className="button-icon"
-                    />
-                    {topic.name}
-                  </button>
-                </Link>
-              )
-            )}
-          </div>
-        </div>
+              {/* Search Section */}
+              <div className="search-container">
+                <input
+                  type="text"
+                  className="search-bar"
+                  placeholder="Search help topics"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <button className="search-icon-button" onClick={handleSearch}>
+                  <img src={require('./assets/search.png')} alt="Search" className="icon-image" />
+                </button>
+              </div>
 
-        {/* Routes */}
-        <Routes>
-          <Route path="/RedirectedPage" element={<RedirectedPage />} />
-        </Routes>
-      </div>
+              {/* Help Topics Section */}
+              <div className="bottom-banner">
+                <h2 className="bottom-banner-title">What can we help you with?</h2>
+                <div className="button-container">
+                  {(filteredTopics.length > 0 ? filteredTopics : topics).map((topic, index) => (
+                    <Link to="/redirect" key={index}>
+                      <button className="bottom-banner-button">
+                        <img src={topic.icon} alt={topic.name} className="button-icon" />
+                        <span className="button-name">{topic.name}</span>
+                        <span className="button-description">{topic.description}</span>
+                      </button>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          }
+        />
+
+        {/* Redirected Page */}
+        <Route path="/redirect" element={<RedirectedPage />} />
+      </Routes>
     </Router>
   );
 };
