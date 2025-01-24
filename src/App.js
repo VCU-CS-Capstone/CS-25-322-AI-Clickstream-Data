@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import './App.css';
 import RedirectedPage from './RedirectedPage';
 import logo from './assets/logo.png';
@@ -12,6 +12,21 @@ import loanIcon from './assets/loan.png';
 import chatIcon from './assets/rep.png';
 import atmIcon from './assets/atm.png';
 import bannerImage from './assets/banner.png';
+
+import ReactGA from 'react-ga4';
+
+ReactGA.initialize('G-XXXXXXXXXX'); 
+ReactGA.send('pageview'); 
+
+const TrackPageView = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    ReactGA.send({ hitType: 'pageview', page: location.pathname });
+  }, [location]);
+
+  return null;
+};
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -35,8 +50,18 @@ const App = () => {
     setFilteredTopics(results);
   };
 
+  const handleButtonClick = (buttonName) => {
+    ReactGA.event({
+      category: 'Button Click',
+      action: 'Clicked',
+      label: buttonName,
+    });
+  };
+
+
   return (
     <Router>
+      <TrackPageView />
       <Routes>
         {/* Home Page */}
         <Route
@@ -51,13 +76,13 @@ const App = () => {
                 </div>
                 <h1 className="banner-title">Customer Service</h1>
                 <div className="banner-right">
-                  <a href="tel:+123456789" className="icon-button">
+                  <a href="tel:+18045555555" className="icon-button" onClick={() => handleButtonClick('Phone Icon')}>
                     <img src={require('./assets/location.png')} alt="Phone" className="icon-image" />
                   </a>
-                  <a href="mailto:support@yourbank.com" className="icon-button">
+                  <a href="mailto:support@yourbank.com" className="icon-button" onClick={() => handleButtonClick('Email Icon')}>
                     <img src={require('./assets/search.png')} alt="Email" className="icon-image" />
                   </a>
-                  <a href="/support" className="icon-button">
+                  <a href="/redirect" className="icon-button" onClick={() => handleButtonClick('Support Icon')}>
                     <img src={require('./assets/person.png')} alt="Support" className="icon-image" />
                   </a>
                 </div>
@@ -77,7 +102,11 @@ const App = () => {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <button className="search-icon-button" onClick={handleSearch}>
+                <button className="search-icon-button" onClick={() => {
+                  handleButtonClick('Search Button');
+                  handleSearch();
+                }}
+                >
                   <img src={require('./assets/search.png')} alt="Search" className="icon-image" />
                 </button>
               </div>
@@ -88,7 +117,7 @@ const App = () => {
                 <div className="button-container">
                   {(filteredTopics.length > 0 ? filteredTopics : topics).map((topic, index) => (
                     <Link to="/redirect" key={index}>
-                      <button className="bottom-banner-button">
+                      <button onClick={() => handleButtonClick(topic.name)} className="bottom-banner-button">
                         <img src={topic.icon} alt={topic.name} className="button-icon" />
                         <span className="button-name">{topic.name}</span>
                         <span className="button-description">{topic.description}</span>
