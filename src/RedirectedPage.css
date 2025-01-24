@@ -1,24 +1,23 @@
-/* General Styles for Redirected Page */
 .redirected-message-container {
   text-align: center;
   margin: 50px auto;
   padding: 20px;
-  max-width: 600px; /* Restrict width for cleaner look */
-  background-color: #ffffff; /* White background */
-  border-radius: 10px; /* Rounded corners */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  max-width: 600px; 
+  background-color: #ffffff;
+  border-radius: 10px; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
 }
 
 .redirected-message-container h2 {
   font-size: 2rem;
   font-weight: bold;
-  color: #002b5c; /* Navy blue text */
+  color: #002b5c;
   margin-bottom: 10px;
 }
 
 .redirected-message-container p {
   font-size: 1.2rem;
-  color: #555555; /* Subtle gray text */
+  color: #555555;
   margin-bottom: 20px;
 }
 
@@ -26,7 +25,7 @@
   padding: 10px 20px;
   font-size: 1rem;
   color: #ffffff;
-  background-color: #d03027; /* Red background */
+  background-color: #d03027; 
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -34,5 +33,4 @@
 }
 
 .back-button:hover {
-  background-color: #aa251e; /* Darker red for hover */
-}
+  background-color: #aa251e; 
