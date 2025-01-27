@@ -77,10 +77,10 @@ const App = () => {
                 <h1 className="banner-title">Customer Service</h1>
                 <div className="banner-right">
                   <a href="tel:+18045555555" className="icon-button" onClick={() => handleButtonClick('Phone Icon')}>
-                    <img src={require('./assets/location.png')} alt="Phone" className="icon-image" />
+                    <img src={require('./assets/call.png')} alt="Phone" className="icon-image" />
                   </a>
                   <a href="mailto:support@yourbank.com" className="icon-button" onClick={() => handleButtonClick('Email Icon')}>
-                    <img src={require('./assets/search.png')} alt="Email" className="icon-image" />
+                    <img src={require('./assets/email.png')} alt="Email" className="icon-image" />
                   </a>
                   <a href="/redirect" className="icon-button" onClick={() => handleButtonClick('Support Icon')}>
                     <img src={require('./assets/person.png')} alt="Support" className="icon-image" />
