@@ -30,6 +30,7 @@ const TrackPageView = () => {
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredTopics, setFilteredTopics] = useState([]);
+  const [totalClicks, setTotalClicks] = useState(0);
 
   const topics = [
     { name: 'Credit Cards', icon: creditCardIcon, description: 'Manage your credit card accounts' },
@@ -51,13 +52,30 @@ const App = () => {
 
   const handleButtonClick = (buttonName) => {
     console.log(`Button clicked: ${buttonName}`);
+    setTotalClicks((prev) => prev + 1);
     ReactGA.event({
       category: 'Button Click',
       action: 'Clicked',
       label: buttonName,
+      nonInteraction: false,
+      customTimestamp: Date.now(),
     });
   };
 
+  const sendTotalClicksToGA = () => {
+    ReactGA.event({
+      category: 'User Interaction',
+      action: 'Total Clicks',
+      value: totalClicks, 
+    });
+  };
+
+  useEffect(() => {
+    return () => {
+      sendTotalClicksToGA(); 
+    };
+  }, []);
+  
 
   return (
     <Router>
