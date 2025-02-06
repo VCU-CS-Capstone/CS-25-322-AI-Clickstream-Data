@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import './App.css';
+import RedirectedPage from './RedirectedPage.js';
 
-import RedirectedPage from './RedirectedPage';
 import logo from './assets/logo.png';
 import creditCardIcon from './assets/card.png';
 import bankAccountIcon from './assets/account.png';
@@ -16,7 +16,6 @@ import bannerImage from './assets/banner.png';
 
 import TagManager from 'react-gtm-module';
 import ReactGA from 'react-ga4';
-
 
 const tagManagerArgs = {
   gtmId: 'GTM-NTZGQV7N',
