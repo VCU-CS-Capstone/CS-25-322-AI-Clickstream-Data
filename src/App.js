@@ -30,6 +30,17 @@ TagManager.initialize(tagManagerArgs);
 ReactGA.initialize('G-FY1PRXB9ZW');
 ReactGA.send('pageview');
 
+const location = useLocation();
+
+// Track page views in GTM
+useEffect(() => {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: 'page_view',
+    sessionId: sessionId,
+    pagePath: window.location.pathname,
+  });
+}, [location]);
 
 // Custom function to track page views.
 const TrackPageView = () => {
@@ -112,17 +123,6 @@ const App = () => {
     }).catch((error) => console.error('Error logging session:', error));
   };
 
-  const location = useLocation();
-
-  // Track page views in GTM
-  useEffect(() => {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: 'page_view',
-      sessionId: sessionId,
-      pagePath: window.location.pathname,
-    });
-  }, [location]);
 
   // Ensure session data is sent when the user leaves the page
   useEffect(() => {
