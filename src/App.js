@@ -28,14 +28,27 @@ const tagManagerArgs = {
 TagManager.initialize(tagManagerArgs);
 
 ReactGA.initialize('G-FY1PRXB9ZW');
-ReactGA.send('pageview');
+
+  // Custom function to track page views.
+  const TrackPageView = () => {
+    const location = useLocation(); 
+
+    useEffect(() => {
+      ReactGA.send({ hitType: 'pageview', page: location.pathname });
+    }, [location]);
+
+    return null;
+  };
+
+  const generateSessionId = () => {
+    return Math.random().toString(36).substr(2, 9) + '-' + Date.now();
+  };
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredTopics, setFilteredTopics] = useState([]);
   const [totalClicks, setTotalClicks] = useState(0);
   const [clicksPerButton, setClicksPerButton] = useState({});
-  const location = useLocation();
 
   const topics = [
     { name: 'Credit Cards', icon: creditCardIcon, description: 'Manage your credit card accounts' },
@@ -50,26 +63,17 @@ const App = () => {
 
   // Get the session ID. Else generate one.
   const sessionId = localStorage.getItem('sessionId') || generateSessionId();
-  useEffect(() => {
-    localStorage.setItem('sessionId', sessionId);
-  }, [sessionId]);
-
-  // Generating session ID.
-  const generateSessionId = () => {
-    return Math.random().toString(36).substr(2, 9) + '-' + Date.now();
-  };
-
+  localStorage.setItem('sessionId', sessionId);
+  
   // Track page views in GTM
   useEffect(() => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
       event: 'page_view',
       sessionId: sessionId,
-      pagePath: location.pathname,
+      pagePath: window.location.pathname,
     });
-
-    ReactGA.send({ hitType: 'pageview', page: location.pathname });
-  }, [location]);
+  }, []);
 
   // Function to handle search bar input.
   const handleSearch = () => {
