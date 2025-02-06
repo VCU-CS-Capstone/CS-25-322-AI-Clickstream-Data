@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 import RedirectedPage from './RedirectedPage.js';
 
@@ -20,29 +20,15 @@ import supportIcon from './assets/person.png';
 import searchIcon from './assets/search.png';
 
 import TagManager from 'react-gtm-module';
-import ReactGA from 'react-ga4';
 
 const tagManagerArgs = {
   gtmId: 'GTM-NTZGQV7N',
 };
 TagManager.initialize(tagManagerArgs);
 
-ReactGA.initialize('G-FY1PRXB9ZW');
-
-  // Custom function to track page views.
-  const TrackPageView = () => {
-    const location = useLocation(); 
-
-    useEffect(() => {
-      ReactGA.send({ hitType: 'pageview', page: location.pathname });
-    }, [location]);
-
-    return null;
-  };
-
-  const generateSessionId = () => {
-    return Math.random().toString(36).substr(2, 9) + '-' + Date.now();
-  };
+const generateSessionId = () => {
+  return Math.random().toString(36).substr(2, 9) + '-' + Date.now();
+};
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -62,9 +48,12 @@ const App = () => {
   ];
 
   // Get the session ID. Else generate one.
-  const sessionId = localStorage.getItem('sessionId') || generateSessionId();
-  localStorage.setItem('sessionId', sessionId);
-  
+  const [sessionId, setSessionId] = useState(localStorage.getItem('sessionId') || generateSessionId());
+
+  useEffect(() => {
+    localStorage.setItem('sessionId', sessionId);
+  }, [sessionId]);
+
   // Track page views in GTM
   useEffect(() => {
     window.dataLayer = window.dataLayer || [];
@@ -73,7 +62,7 @@ const App = () => {
       sessionId: sessionId,
       pagePath: window.location.pathname,
     });
-  }, []);
+  }, [sessionId, window.location.pathname]);
 
   // Function to handle search bar input.
   const handleSearch = () => {
@@ -134,7 +123,6 @@ const App = () => {
 
   return (
     <Router>
-      <TrackPageView />
       <Routes>
         {/* Home Page */}
         <Route
