@@ -14,6 +14,11 @@ import chatIcon from './assets/rep.png';
 import atmIcon from './assets/atm.png';
 import bannerImage from './assets/banner.png';
 
+import callIcon from './assets/call.png';
+import emailIcon from './assets/email.png';
+import supportIcon from './assets/person.png';
+import searchIcon from './assets/search.png';
+
 import TagManager from 'react-gtm-module';
 import ReactGA from 'react-ga4';
 
@@ -28,8 +33,6 @@ ReactGA.send('pageview');
 
 // Custom function to track page views.
 const TrackPageView = () => {
-  const location = useLocation();
-
   useEffect(() => {
     ReactGA.send({ hitType: 'pageview', page: location.pathname });
   }, [location]);
@@ -109,6 +112,8 @@ const App = () => {
     }).catch((error) => console.error('Error logging session:', error));
   };
 
+  const location = useLocation();
+
   // Track page views in GTM
   useEffect(() => {
     window.dataLayer = window.dataLayer || [];
@@ -118,7 +123,7 @@ const App = () => {
       pagePath: window.location.pathname,
     });
   }, [location]);
-  
+
   // Ensure session data is sent when the user leaves the page
   useEffect(() => {
     const handleBeforeUnload = () => {
@@ -149,13 +154,13 @@ const App = () => {
                 <h1 className="banner-title">Customer Service</h1>
                 <div className="banner-right">
                   <a href="tel:+18045555555" className="icon-button" onClick={() => handleButtonClick('Phone Icon')}>
-                    <img src={require('./assets/call.png')} alt="Phone" className="icon-image" />
+                    <img src={callIcon} alt="Phone" className="icon-image" />
                   </a>
                   <a href="mailto:support@yourbank.com" className="icon-button" onClick={() => handleButtonClick('Email Icon')}>
-                    <img src={require('./assets/email.png')} alt="Email" className="icon-image" />
+                    <img src={emailIcon} alt="Email" className="icon-image" />
                   </a>
                   <a href="/redirect" className="icon-button" onClick={() => handleButtonClick('Support Icon')}>
-                    <img src={require('./assets/person.png')} alt="Support" className="icon-image" />
+                    <img src={supportIcon} alt="Support" className="icon-image" />
                   </a>
                 </div>
               </div>
@@ -179,7 +184,7 @@ const App = () => {
                   handleSearch();
                 }}
                 >
-                  <img src={require('./assets/search.png')} alt="Search" className="icon-image" />
+                  <img src={searchIcon} alt="Search" className="icon-image" />
                 </button>
               </div>
 
