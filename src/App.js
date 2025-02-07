@@ -88,15 +88,6 @@ const App = () => {
       clickTime: new Date().toISOString(),
     });
 
-    fetch('https://cs-25-322-backend.onrender.com/log-click', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        sessionId: sessionId,
-        buttonName: buttonName,
-        clickTime: new Date().toISOString(),
-      }),
-    }).catch((error) => console.error('Error logging click:', error));
   };
 
   const sendSessionData = () => {

@@ -46,6 +46,11 @@ const fetchGA4Data = async () => {
       metrics: [{ name: 'eventCount' }],
     });
 
+    if (!response.rows) {
+      console.warn("No data in GA");
+      return;
+    }
+
     response.rows.forEach(async (row) => {
       const clickEvent = new ClickEvent({
         sessionId: row.dimensionValues[1].value,
@@ -77,6 +82,17 @@ app.get('/get-clicks', async (req, res) => {
       res.json(clicks);
   } catch (err) {
       res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/fetch-ga4-data', async (req, res) => {
+  try {
+      console.log("Manually fetching");
+      await fetchGA4Data();
+      res.status(200).json({ message: "Successful data fetch" });
+  } catch (error) {
+      console.error("Error fetching:", error);
+      res.status(500).json({ error: error.message });
   }
 });
 
