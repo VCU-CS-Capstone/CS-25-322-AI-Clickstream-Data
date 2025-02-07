@@ -10,7 +10,6 @@ const app = express();
 app.use(express.json());
 app.use(cors({origin: '*'}));
 
-//  Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Success"))
   .catch((err) => {
@@ -18,21 +17,15 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
     process.exit(1);
   });
 
-// Schema and Model for GA Click Events
 const clickSchema = new mongoose.Schema({
-  sessionId: String,
-  buttonName: String,
-  clickTime: Date,
+ // sessionId: String,
+  eventName: String,
+  // clickTime: Date,
   eventType: String,
 });
 const ClickEvent = mongoose.model('ClickEvent', clickSchema);
 
-if (!fs.existsSync(process.env.GOOGLE_CRED)) {
-  console.error("Google Credentials file missing!");
-  process.exit(1);
-}
-
-// Initialize GA API
+// GA API
 const analyticsDataClient = new BetaAnalyticsDataClient({
   keyFilename: process.env.GOOGLE_CRED || '/etc/secrets/skilful-frame-450207-b7-bc02171e8288.json',
 });
@@ -41,7 +34,7 @@ const fetchGA4Data = async () => {
   try {
     const [response] = await analyticsDataClient.runReport({
       property: `properties/${process.env.GA_PROPERTY_ID}`,
-      dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
+      dateRanges: [{ startDate: '14daysAgo', endDate: 'today' }],
       dimensions: [
         { name: 'eventName' } 
       ],
@@ -49,36 +42,32 @@ const fetchGA4Data = async () => {
     });
 
     if (!response.rows) {
-      console.warn("No data in GA");
+      console.warn("No data");
       return;
     }
 
     response.rows.forEach(async (row) => {
-      if (row.dimensionValues[0].value === "button_click") {  
-        const clickEvent = new ClickEvent({
-          eventName: row.dimensionValues[0].value,
-       //   clickTime: new Date(),
-          eventType: "GA4",
-        });
-
+      const clickEvent = new ClickEvent({
+        // sessionId: row.dimensionValues[1].value,
+        eventName: row.dimensionValues[0].value,
+        //clickTime: new Date(),
+        eventType: "GA4",
+      });
       await clickEvent.save();
-      }
+      
     });
 
-    console.log('GA4 Data stored in MongoDB');
+    console.log('Yay');
   } catch (error) {
-    console.error('Error fetching GA4 data:', error);
+    console.error(error);
   }
 };
-
-// Run Fetch Every 30 Minutes
-setInterval(fetchGA4Data, 30 * 60 * 1000);
 
 app.get("/", (req, res) => {
   res.send("/ is working");
 });
 
-// API to Retrieve Click Data from MongoDB
+/*
 app.get('/get-clicks', async (req, res) => {
   try {
       const clicks = await ClickEvent.find();
@@ -87,14 +76,15 @@ app.get('/get-clicks', async (req, res) => {
       res.status(500).json({ error: err.message });
   }
 });
+*/
 
 app.get('/fetch-ga4-data', async (req, res) => {
   try {
-      console.log("Manually fetching");
+      console.log("Fetching");
       await fetchGA4Data();
-      res.status(200).json({ message: "Successful data fetch" });
+      res.status(200).json({ message: "Yay" });
   } catch (error) {
-      console.error("Error fetching:", error);
+      console.error(error);
       res.status(500).json({ error: error.message });
   }
 });
