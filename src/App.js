@@ -33,8 +33,7 @@ const generateSessionId = () => {
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredTopics, setFilteredTopics] = useState([]);
-  const [totalClicks, setTotalClicks] = useState(0);
-  const [clicksPerButton, setClicksPerButton] = useState({});
+  const [clickData, setClickData] = useState([]); 
 
   const topics = [
     { name: 'Credit Cards', icon: creditCardIcon, description: 'Manage your credit card accounts' },
@@ -47,12 +46,18 @@ const App = () => {
     { name: 'Find ATM/Branch', icon: atmIcon, description: 'Locate ATMs and branches near you' },
   ];
 
-  // Get the session ID. Else generate one.
   const [sessionId, setSessionId] = useState(localStorage.getItem('sessionId') || generateSessionId());
-
   useEffect(() => {
     localStorage.setItem('sessionId', sessionId);
   }, [sessionId]);
+
+  // fetch clickstream from MongoDB
+  useEffect(() => {
+    fetch('https://cs-25-322-ai-clickstream-data.onrender.com/get-clicks')
+      .then((response) => response.json())
+      .then((data) => setClickData(data))
+      .catch((error) => console.error('Error fetching data:', error));
+  }, []);
 
   // Track page views in GTM
   useEffect(() => {
@@ -64,7 +69,7 @@ const App = () => {
     });
   }, [sessionId, window.location.pathname]);
 
-  // Function to handle search bar input.
+  // Search function
   const handleSearch = () => {
     const results = topics.filter((topic) =>
       topic.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -94,37 +99,27 @@ const App = () => {
     }).catch((error) => console.error('Error logging click:', error));
   };
 
-  // Send total clicks and button clicks per session to backend
   const sendSessionData = () => {
     fetch('https://cs-25-322-ai-clickstream-data.onrender.com/log-session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         sessionId: sessionId,
-        totalClicks: totalClicks,
-        clicksPerButton: clicksPerButton,
         sessionEndTime: new Date().toISOString(),
       }),
     }).catch((error) => console.error('Error logging session:', error));
   };
 
-
-  // Ensure session data is sent when the user leaves the page
+  // session data is sent when the user leaves the page
   useEffect(() => {
-    const handleBeforeUnload = () => {
-      sendSessionData();
-    };
-
+    const handleBeforeUnload = () => sendSessionData();
     window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, [totalClicks, clicksPerButton]);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, []);
 
   return (
     <Router>
       <Routes>
-        {/* Home Page */}
         <Route
           path="/"
           element={
@@ -143,13 +138,12 @@ const App = () => {
                   <a href="mailto:support@yourbank.com" className="icon-button" onClick={() => handleButtonClick('Email Icon')}>
                     <img src={emailIcon} alt="Email" className="icon-image" />
                   </a>
-                  <a href="/redirect" className="icon-button" onClick={() => handleButtonClick('Support Icon')}>
+                  <Link to="/redirect" className="icon-button" onClick={() => handleButtonClick('Support Icon')}>
                     <img src={supportIcon} alt="Support" className="icon-image" />
-                  </a>
+                  </Link>
                 </div>
               </div>
 
-              {/* Banner Image Section */}
               <div className="banner-image-container">
                 <img src={bannerImage} alt="Promotional Banner" className="banner-image" />
               </div>
@@ -166,8 +160,7 @@ const App = () => {
                 <button className="search-icon-button" onClick={() => {
                   handleButtonClick('Search Button');
                   handleSearch();
-                }}
-                >
+                }}>
                   <img src={searchIcon} alt="Search" className="icon-image" />
                 </button>
               </div>
@@ -187,11 +180,20 @@ const App = () => {
                   ))}
                 </div>
               </div>
+
+              <div className="click-data-container">
+                <h2>Logged Click Events</h2>
+                <ul>
+                  {clickData.map((click, index) => (
+                    <li key={index}>
+                      {click.buttonName} - {click.sessionId} - {new Date(click.clickTime).toLocaleString()}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           }
         />
-
-        {/* Redirected Page */}
         <Route path="/redirect" element={<RedirectedPage />} />
       </Routes>
     </Router>
