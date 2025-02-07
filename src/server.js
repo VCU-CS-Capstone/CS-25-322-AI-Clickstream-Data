@@ -17,51 +17,73 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
     process.exit(1);
   });
 
-const clickSchema = new mongoose.Schema({
- // sessionId: String,
-  eventName: String,
-  // clickTime: Date,
-  eventType: String,
+const InteractionSchema = new mongoose.Schema({
+  eventType: String,  // 'button_click' or 'search'
+  eventValue: String, // Button name or search term
+  timestamp: Date     // Actual event timestamp from GA4
 });
-const ClickEvent = mongoose.model('ClickEvent', clickSchema);
+
+export const Interaction = mongoose.model('Interaction', InteractionSchema);
 
 // GA API
 const analyticsDataClient = new BetaAnalyticsDataClient({
   keyFilename: process.env.GOOGLE_CRED || '/etc/secrets/skilful-frame-450207-b7-bc02171e8288.json',
 });
 
-const fetchGA4Data = async () => {
-  try {
-    const [response] = await analyticsDataClient.runReport({
-      property: `properties/${process.env.GA_PROPERTY_ID}`,
-      dateRanges: [{ startDate: '14daysAgo', endDate: 'today' }],
-      dimensions: [
-        { name: 'eventName' } 
-      ],
-      metrics: [{ name: 'eventCount' }]
-    });
+async function fetchInteractions() {
+  const [response] = await analyticsDataClient.runReport({
+    property: `properties/${GA_PROPERTY_ID}`,
+    dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
+    metrics: [{ name: 'eventCount' }],
+    dimensions: [
+      { name: 'eventName' },
+      { name: 'eventParameterKey' },
+      { name: 'eventParameterValue' },
+      { name: 'eventTimestamp' } 
+    ]
+  });
 
-    if (!response.rows) {
-      console.warn("No data");
-      return;
+  const interactions = [];
+
+  response.rows.forEach(row => {
+    const eventName = row.dimensionValues[0].value;
+    const eventParameterKey = row.dimensionValues[1].value;
+    const eventParameterValue = row.dimensionValues[2].value;
+    const eventTimestampMicroseconds = parseInt(row.dimensionValues[3].value); 
+
+    const eventTimestamp = new Date(eventTimestampMicroseconds / 1000);
+
+    if (eventName === 'button_click' && eventParameterKey === 'button_name') {
+      interactions.push({ eventType: 'button_click', eventValue: eventParameterValue, timestamp: eventTimestamp });
     }
 
-    response.rows.forEach(async (row) => {
-      const clickEvent = new ClickEvent({
-        // sessionId: row.dimensionValues[1].value,
-        eventName: row.dimensionValues[0].value,
-        //clickTime: new Date(),
-        eventType: "GA4",
-      });
-      await clickEvent.save();
-      
-    });
+    if (eventName === 'search' && eventParameterKey === 'search_term') {
+      interactions.push({ eventType: 'search', eventValue: eventParameterValue, timestamp: eventTimestamp });
+    }
+  });
 
-    console.log('Yay');
-  } catch (error) {
-    console.error(error);
+  return interactions;
+}
+
+async function storeInteractions() {
+  const interactions = await fetchInteractions();
+
+  if (interactions.length > 0) {
+    await Interaction.insertMany(interactions);
+    console.log(`Stored ${interactions.length} interactions with accurate timestamps`);
+  } else {
+    console.log("No new interactions to store.");
   }
-};
+}
+
+app.get('/interactions', async (req, res) => {
+  try {
+    const data = await Interaction.find().sort({ timestamp: -1 }).limit(50);
+    res.json(data);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
 
 app.get("/", (req, res) => {
   res.send("/ is working");
@@ -81,7 +103,7 @@ app.get('/get-clicks', async (req, res) => {
 app.get('/fetch-ga4-data', async (req, res) => {
   try {
       console.log("Fetching");
-      await fetchGA4Data();
+      await storeInteractions();
       res.status(200).json({ message: "Yay" });
   } catch (error) {
       console.error(error);
