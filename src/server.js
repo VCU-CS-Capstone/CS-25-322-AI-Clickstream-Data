@@ -66,6 +66,10 @@ const fetchGA4Data = async () => {
 // Run Fetch Every 30 Minutes
 setInterval(fetchGA4Data, 30 * 60 * 1000);
 
+app.get("/", (req, res) => {
+  res.send("/ is working");
+});
+
 // API to Retrieve Click Data from MongoDB
 app.get('/get-clicks', async (req, res) => {
   try {
@@ -76,5 +80,5 @@ app.get('/get-clicks', async (req, res) => {
   }
 });
 
-const PORT = 5001;
+const PORT = process.env.PORT;
 app.listen(PORT, () => console.log('Server running on port 5001'));
