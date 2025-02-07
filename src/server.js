@@ -42,8 +42,8 @@ const fetchGA4Data = async () => {
     const [response] = await analyticsDataClient.runReport({
       property: `properties/${process.env.GA_PROPERTY_ID}`,
       dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
-      dimensions: [{ name: 'eventName' }, { name: 'sessionId' }, { name: 'pagePath' }],
-      metrics: [{ name: 'eventCount' }],
+      dimensions: [{ name: 'eventName' }],
+      metrics: [{ name: 'eventCount' }]
     });
 
     if (!response.rows) {
