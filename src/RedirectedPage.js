@@ -6,15 +6,10 @@ import bannerImage from './assets/banner.png';
 import locationIcon from './assets/location.png';
 import searchIcon from './assets/search.png';
 import personIcon from './assets/person.png';
-import ReactGA from 'react-ga4';
 
 const RedirectedPage = () => {
   const handleBackButtonClick = () => {
-    ReactGA.event({
-      category: 'Button Click',
-      action: 'Go Back to Home Page',
-      label: 'Redirected Page - Home Button',
-    });
+    console.log("Go Back to Home Page button clicked.");
   };
 
   return (
