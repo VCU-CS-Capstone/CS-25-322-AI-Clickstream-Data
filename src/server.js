@@ -43,8 +43,7 @@ const fetchGA4Data = async () => {
       property: `properties/${process.env.GA_PROPERTY_ID}`,
       dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
       dimensions: [
-        { name: 'eventName' }, 
-        { name: 'customEvent:button_name' } 
+        { name: 'eventName' } 
       ],
       metrics: [{ name: 'eventCount' }]
     });
@@ -57,8 +56,8 @@ const fetchGA4Data = async () => {
     response.rows.forEach(async (row) => {
       if (row.dimensionValues[0].value === "button_click") {  
         const clickEvent = new ClickEvent({
-          buttonName: row.dimensionValues[1]?.value || "Unknown",
-          clickTime: new Date(),
+          eventName: row.dimensionValues[0].value,
+       //   clickTime: new Date(),
           eventType: "GA4",
         });
 
