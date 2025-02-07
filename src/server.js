@@ -32,7 +32,7 @@ const analyticsDataClient = new BetaAnalyticsDataClient({
 
 async function fetchInteractions() {
   const [response] = await analyticsDataClient.runReport({
-    property: `properties/${GA_PROPERTY_ID}`,
+    property: `properties/${process.env.GA_PROPERTY_ID}`,
     dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
     metrics: [{ name: 'eventCount' }],
     dimensions: [
