@@ -33,7 +33,7 @@ if (!fs.existsSync(process.env.GOOGLE_CRED)) {
 
 // Initialize GA API
 const analyticsDataClient = new BetaAnalyticsDataClient({
-  keyFilename: process.env.GOOGLE_CRED,
+  keyFilename: process.env.GOOGLE_CRED || '/etc/secrets/skilful-frame-450207-b7-bc02171e8288.json',
 });
 
 const fetchGA4Data = async () => {
