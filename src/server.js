@@ -20,7 +20,6 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 const InteractionSchema = new mongoose.Schema({
   eventType: String,  // 'button_click' or 'search'
   eventValue: String, // Button name or search term
-  timestamp: Date     // Actual event timestamp from GA4
 });
 
 export const Interaction = mongoose.model('Interaction', InteractionSchema);
@@ -39,7 +38,6 @@ async function fetchInteractions() {
       { name: 'eventName' },
       { name: 'eventParameterKey' },
       { name: 'eventParameterValue' },
-      { name: 'eventTimestamp' } 
     ]
   });
 
@@ -49,16 +47,13 @@ async function fetchInteractions() {
     const eventName = row.dimensionValues[0].value;
     const eventParameterKey = row.dimensionValues[1].value;
     const eventParameterValue = row.dimensionValues[2].value;
-    const eventTimestampMicroseconds = parseInt(row.dimensionValues[3].value); 
-
-    const eventTimestamp = new Date(eventTimestampMicroseconds / 1000);
 
     if (eventName === 'button_click' && eventParameterKey === 'button_name') {
-      interactions.push({ eventType: 'button_click', eventValue: eventParameterValue, timestamp: eventTimestamp });
+      interactions.push({ eventType: 'button_click', eventValue: eventParameterValue });
     }
 
     if (eventName === 'search' && eventParameterKey === 'search_term') {
-      interactions.push({ eventType: 'search', eventValue: eventParameterValue, timestamp: eventTimestamp });
+      interactions.push({ eventType: 'search', eventValue: eventParameterValue });
     }
   });
 
@@ -70,7 +65,7 @@ async function storeInteractions() {
 
   if (interactions.length > 0) {
     await Interaction.insertMany(interactions);
-    console.log(`Stored ${interactions.length} interactions with accurate timestamps`);
+    console.log(`Stored ${interactions.length} interactions`);
   } else {
     console.log("No new interactions to store.");
   }
@@ -78,7 +73,7 @@ async function storeInteractions() {
 
 app.get('/interactions', async (req, res) => {
   try {
-    const data = await Interaction.find().sort({ timestamp: -1 }).limit(50);
+    const data = await Interaction.find().limit(50);
     res.json(data);
   } catch (error) {
     res.status(500).send(error.message);
