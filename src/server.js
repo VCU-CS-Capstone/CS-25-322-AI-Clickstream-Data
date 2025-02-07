@@ -1,14 +1,21 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import { BetaAnalyticsDataClient } from '@google-analytics/data';
 
 dotenv.config();
 const app = express();
 app.use(express.json());
+app.use(cors({origin: '*'}));
 
 //  Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("Success"))
+  .catch((err) => {
+    console.error("Connection Error:", err);
+    process.exit(1);
+  });
 
 // Schema and Model for GA Click Events
 const clickSchema = new mongoose.Schema({
@@ -17,8 +24,12 @@ const clickSchema = new mongoose.Schema({
   clickTime: Date,
   eventType: String,
 });
-
 const ClickEvent = mongoose.model('ClickEvent', clickSchema);
+
+if (!fs.existsSync(process.env.GOOGLE_CRED)) {
+  console.error("Google Credentials file missing!");
+  process.exit(1);
+}
 
 // Initialize GA API
 const analyticsDataClient = new BetaAnalyticsDataClient({
@@ -55,13 +66,14 @@ const fetchGA4Data = async () => {
 setInterval(fetchGA4Data, 30 * 60 * 1000);
 
 // API to Retrieve Click Data from MongoDB
-app.get('/clicks', async (req, res) => {
+app.get('/get-clicks', async (req, res) => {
   try {
-    const clicks = await ClickEvent.find();
-    res.json(clicks);
+      const clicks = await ClickEvent.find();
+      res.json(clicks);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+      res.status(500).json({ error: err.message });
   }
 });
 
-app.listen(5001, () => console.log('Server running on port 5001'));
+const PORT = 5001;
+app.listen(PORT, () => console.log('Server running on port 5001'));
