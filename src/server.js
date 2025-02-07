@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import fs from 'fs';
 import { BetaAnalyticsDataClient } from '@google-analytics/data';
 
 dotenv.config();
