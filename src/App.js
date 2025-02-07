@@ -75,7 +75,17 @@ const App = () => {
       topic.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredTopics(results);
+  
+    // Push search event to Google Tag Manager
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "search",
+      search_term: searchTerm
+    });
+  
+    console.log("Search event pushed to GTM:", searchTerm);
   };
+  
 
   const handleButtonClick = (buttonName) => {
     console.log(`Button clicked: ${buttonName}`);
