@@ -42,7 +42,10 @@ const fetchGA4Data = async () => {
     const [response] = await analyticsDataClient.runReport({
       property: `properties/${process.env.GA_PROPERTY_ID}`,
       dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
-      dimensions: [{ name: 'eventName' }],
+      dimensions: [
+        { name: 'eventName' }, 
+        { name: 'customEvent:button_name' } 
+      ],
       metrics: [{ name: 'eventCount' }]
     });
 
@@ -52,14 +55,15 @@ const fetchGA4Data = async () => {
     }
 
     response.rows.forEach(async (row) => {
-      const clickEvent = new ClickEvent({
-   //     sessionId: row.dimensionValues[1].value,
-        buttonName: row.dimensionValues[0].value,
-        clickTime: new Date(),
-        eventType: "GA4",
-      });
+      if (row.dimensionValues[0].value === "button_click") {  
+        const clickEvent = new ClickEvent({
+          buttonName: row.dimensionValues[1]?.value || "Unknown",
+          clickTime: new Date(),
+          eventType: "GA4",
+        });
 
       await clickEvent.save();
+      }
     });
 
     console.log('GA4 Data stored in MongoDB');
