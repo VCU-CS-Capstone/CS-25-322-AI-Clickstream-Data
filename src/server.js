@@ -53,7 +53,7 @@ const fetchGA4Data = async () => {
 
     response.rows.forEach(async (row) => {
       const clickEvent = new ClickEvent({
-        sessionId: row.dimensionValues[1].value,
+   //     sessionId: row.dimensionValues[1].value,
         buttonName: row.dimensionValues[0].value,
         clickTime: new Date(),
         eventType: "GA4",
