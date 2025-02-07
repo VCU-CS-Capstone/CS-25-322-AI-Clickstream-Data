@@ -53,7 +53,7 @@ const App = () => {
 
   // fetch clickstream from MongoDB
   useEffect(() => {
-    fetch('https://cs-25-322-ai-clickstream-data.onrender.com/get-clicks')
+    fetch('https://cs-25-322-backend.onrender.com/get-clicks')
       .then((response) => response.json())
       .then((data) => setClickData(data))
       .catch((error) => console.error('Error fetching data:', error));
@@ -88,7 +88,7 @@ const App = () => {
       clickTime: new Date().toISOString(),
     });
 
-    fetch('https://cs-25-322-ai-clickstream-data.onrender.com/log-click', {
+    fetch('https://cs-25-322-backend.onrender.com/log-click', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
