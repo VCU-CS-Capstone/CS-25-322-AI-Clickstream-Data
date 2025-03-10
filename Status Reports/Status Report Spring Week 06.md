@@ -7,7 +7,7 @@
 **Faculty Advisor:Thomas Gyeera**
 
 ## 1) Accomplishments this week ##
-   - Finished final buttons for front-end
+   - Added more functionality to help topic buttons
 
 ## 2) Milestones to be completed next week ##
    - Research more into connecting the front-end and the back-end
