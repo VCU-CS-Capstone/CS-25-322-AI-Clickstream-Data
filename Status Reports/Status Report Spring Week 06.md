@@ -11,6 +11,7 @@
 
 ## 2) Milestones to be completed next week ##
    - Research more into connecting the front-end and the back-end
+   - Decide between using OpenAI, mongoDB, and a machine learning algorithm vs using GA4. Pros and cons to both
 
 ## 3) Issues, problems or concerns ##
    - Unsure how to incorporate AI into project
