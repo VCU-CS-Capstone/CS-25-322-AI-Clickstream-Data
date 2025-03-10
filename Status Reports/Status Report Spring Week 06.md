@@ -13,4 +13,4 @@
    - Research more into connecting the front-end and the back-end
 
 ## 3) Issues, problems or concerns ##
-   - Unsure how to connect front-end and back-end together
+   - Unsure how to incorporate AI into project
