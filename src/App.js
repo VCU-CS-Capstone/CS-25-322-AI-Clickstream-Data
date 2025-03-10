@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 import RedirectedPage from './RedirectedPage';
+import HelpTopic from './HelpTopic';
 import logo from './assets/logo.png';
 import creditCardIcon from './assets/card.png';
 import bankAccountIcon from './assets/account.png';
 import autoIcon from './assets/auto.png';
-import travelIcon from './assets/travel.png';
-import fraudIcon from './assets/fraud.png';
 import loanIcon from './assets/loan.png';
-import chatIcon from './assets/rep.png';
-import atmIcon from './assets/atm.png';
 import bannerImage from './assets/banner.png';
+import fraudIcon from './assets/fraud.png';
+
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -21,11 +20,7 @@ const App = () => {
     { name: 'Credit Cards', icon: creditCardIcon, description: 'Manage your credit card accounts' },
     { name: 'Bank Accounts', icon: bankAccountIcon, description: 'View and manage your bank accounts' },
     { name: 'Auto Financing', icon: autoIcon, description: 'Explore auto loan options' },
-    { name: 'Travel Services', icon: travelIcon, description: 'Book and manage your travel plans' },
     { name: 'Report Fraud', icon: fraudIcon, description: 'Report suspicious activity or fraud' },
-    { name: 'Apply for a Loan', icon: loanIcon, description: 'Apply for personal or business loans' },
-    { name: 'Chat with Us', icon: chatIcon, description: 'Get assistance from a representative' },
-    { name: 'Find ATM/Branch', icon: atmIcon, description: 'Locate ATMs and branches near you' },
   ];
 
   const handleSearch = () => {
@@ -87,7 +82,7 @@ const App = () => {
                 <h2 className="bottom-banner-title">What can we help you with?</h2>
                 <div className="button-container">
                   {(filteredTopics.length > 0 ? filteredTopics : topics).map((topic, index) => (
-                    <Link to="/redirect" key={index}>
+                    <Link to={`/help/${topic.name.toLowerCase().replace(/ /g, '-')}`} key={index}>
                       <button className="bottom-banner-button">
                         <img src={topic.icon} alt={topic.name} className="button-icon" />
                         <span className="button-name">{topic.name}</span>
@@ -100,6 +95,9 @@ const App = () => {
             </div>
           }
         />
+
+        {/* Help Topics Page */}
+        <Route path="/help/:topic" element={<HelpTopic />} />
 
         {/* Redirected Page */}
         <Route path="/redirect" element={<RedirectedPage />} />
