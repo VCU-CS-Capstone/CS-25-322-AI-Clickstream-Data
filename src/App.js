@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
-import RedirectedPage from './RedirectedPage.js';
+import RedirectedPage from './RedirectedPage';
+import HelpTopic from './HelpTopic';
+
+import TagManager from 'react-gtm-module';
 
 import logo from './assets/logo.png';
 import creditCardIcon from './assets/card.png';
 import bankAccountIcon from './assets/account.png';
 import autoIcon from './assets/auto.png';
-import travelIcon from './assets/travel.png';
 import fraudIcon from './assets/fraud.png';
 import loanIcon from './assets/loan.png';
-import chatIcon from './assets/rep.png';
-import atmIcon from './assets/atm.png';
 import bannerImage from './assets/banner.png';
 
 import callIcon from './assets/call.png';
 import emailIcon from './assets/email.png';
 import supportIcon from './assets/person.png';
 import searchIcon from './assets/search.png';
-
-import TagManager from 'react-gtm-module';
 
 const tagManagerArgs = {
   gtmId: 'GTM-NTZGQV7N',
@@ -33,17 +31,13 @@ const generateSessionId = () => {
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredTopics, setFilteredTopics] = useState([]);
-  const [clickData, setClickData] = useState([]); 
+  const [clickData, setClickData] = useState([]);
 
   const topics = [
     { name: 'Credit Cards', icon: creditCardIcon, description: 'Manage your credit card accounts' },
     { name: 'Bank Accounts', icon: bankAccountIcon, description: 'View and manage your bank accounts' },
     { name: 'Auto Financing', icon: autoIcon, description: 'Explore auto loan options' },
-    { name: 'Travel Services', icon: travelIcon, description: 'Book and manage your travel plans' },
     { name: 'Report Fraud', icon: fraudIcon, description: 'Report suspicious activity or fraud' },
-    { name: 'Apply for a Loan', icon: loanIcon, description: 'Apply for personal or business loans' },
-    { name: 'Chat with Us', icon: chatIcon, description: 'Get assistance from a representative' },
-    { name: 'Find ATM/Branch', icon: atmIcon, description: 'Locate ATMs and branches near you' },
   ];
 
   const [sessionId, setSessionId] = useState(localStorage.getItem('sessionId') || generateSessionId());
@@ -51,7 +45,6 @@ const App = () => {
     localStorage.setItem('sessionId', sessionId);
   }, [sessionId]);
 
-  // fetch clickstream from MongoDB
   useEffect(() => {
     fetch('https://cs-25-322-backend.onrender.com/get-clicks')
       .then((response) => response.json())
@@ -59,7 +52,6 @@ const App = () => {
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
 
-  // Track page views in GTM
   useEffect(() => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
@@ -67,25 +59,22 @@ const App = () => {
       sessionId: sessionId,
       pagePath: window.location.pathname,
     });
-  }, [sessionId, window.location.pathname]);
+  }, [sessionId]);
 
-  // Search function
   const handleSearch = () => {
     const results = topics.filter((topic) =>
       topic.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredTopics(results);
-  
-    // Push search event to Google Tag Manager
+
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      event: "search",
-      search_term: searchTerm
+      event: 'search',
+      search_term: searchTerm,
     });
-  
-    console.log("Search event pushed to GTM:", searchTerm);
+
+    console.log('Search event pushed to GTM:', searchTerm);
   };
-  
 
   const handleButtonClick = (buttonName) => {
     console.log(`Button clicked: ${buttonName}`);
@@ -97,7 +86,6 @@ const App = () => {
       buttonName: buttonName,
       clickTime: new Date().toISOString(),
     });
-
   };
 
   const sendSessionData = () => {
@@ -111,7 +99,6 @@ const App = () => {
     }).catch((error) => console.error('Error logging session:', error));
   };
 
-  // session data is sent when the user leaves the page
   useEffect(() => {
     const handleBeforeUnload = () => sendSessionData();
     window.addEventListener('beforeunload', handleBeforeUnload);
@@ -145,6 +132,7 @@ const App = () => {
                 </div>
               </div>
 
+              {/* Banner Image Section */}
               <div className="banner-image-container">
                 <img src={bannerImage} alt="Promotional Banner" className="banner-image" />
               </div>
@@ -158,10 +146,13 @@ const App = () => {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <button className="search-icon-button" onClick={() => {
-                  handleButtonClick('Search Button');
-                  handleSearch();
-                }}>
+                <button
+                  className="search-icon-button"
+                  onClick={() => {
+                    handleButtonClick('Search Button');
+                    handleSearch();
+                  }}
+                >
                   <img src={searchIcon} alt="Search" className="icon-image" />
                 </button>
               </div>
@@ -171,8 +162,14 @@ const App = () => {
                 <h2 className="bottom-banner-title">What can we help you with?</h2>
                 <div className="button-container">
                   {(filteredTopics.length > 0 ? filteredTopics : topics).map((topic, index) => (
-                    <Link to="/redirect" key={index}>
-                      <button onClick={() => handleButtonClick(topic.name)} className="bottom-banner-button">
+                    <Link
+                      to={`/help/${topic.name.toLowerCase().replace(/ /g, '-')}`}
+                      key={index}
+                    >
+                      <button
+                        onClick={() => handleButtonClick(topic.name)}
+                        className="bottom-banner-button"
+                      >
                         <img src={topic.icon} alt={topic.name} className="button-icon" />
                         <span className="button-name">{topic.name}</span>
                         <span className="button-description">{topic.description}</span>
@@ -182,6 +179,7 @@ const App = () => {
                 </div>
               </div>
 
+              {/* Clickstream Data (Optional) */}
               <div className="click-data-container">
                 <h2>Logged Click Events</h2>
                 <ul>
@@ -195,6 +193,7 @@ const App = () => {
             </div>
           }
         />
+        <Route path="/help/:topic" element={<HelpTopic />} />
         <Route path="/redirect" element={<RedirectedPage />} />
       </Routes>
     </Router>
