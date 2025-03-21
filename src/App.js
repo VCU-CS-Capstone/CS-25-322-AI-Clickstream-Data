@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
-import RedirectedPage from './RedirectedPage';
-import HelpTopic from './HelpTopic';
+import RedirectedPage from './RedirectedPage.js';
+import HelpTopic from './HelpTopic.js'
 
 import TagManager from 'react-gtm-module';
 
