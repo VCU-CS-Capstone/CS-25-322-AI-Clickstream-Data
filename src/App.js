@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 import RedirectedPage from './RedirectedPage.js';
-import HelpTopic from './HelpTopic.js'
+import HelpTopic from './HelpTopic.js';
 
 import TagManager from 'react-gtm-module';
 
@@ -11,7 +11,6 @@ import creditCardIcon from './assets/card.png';
 import bankAccountIcon from './assets/account.png';
 import autoIcon from './assets/auto.png';
 import fraudIcon from './assets/fraud.png';
-import loanIcon from './assets/loan.png';
 import bannerImage from './assets/banner.png';
 
 import callIcon from './assets/call.png';
@@ -31,7 +30,6 @@ const generateSessionId = () => {
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredTopics, setFilteredTopics] = useState([]);
-  const [clickData, setClickData] = useState([]);
 
   const topics = [
     { name: 'Credit Cards', icon: creditCardIcon, description: 'Manage your credit card accounts' },
@@ -45,13 +43,7 @@ const App = () => {
     localStorage.setItem('sessionId', sessionId);
   }, [sessionId]);
 
-  useEffect(() => {
-    fetch('https://cs-25-322-backend.onrender.com/get-clicks')
-      .then((response) => response.json())
-      .then((data) => setClickData(data))
-      .catch((error) => console.error('Error fetching data:', error));
-  }, []);
-
+  // Track page views in GTM
   useEffect(() => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
@@ -67,6 +59,7 @@ const App = () => {
     );
     setFilteredTopics(results);
 
+    // Push search event to GTM
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
       event: 'search',
@@ -79,6 +72,7 @@ const App = () => {
   const handleButtonClick = (buttonName) => {
     console.log(`Button clicked: ${buttonName}`);
 
+    // Push click event to GTM
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
       event: 'button_click',
@@ -86,6 +80,17 @@ const App = () => {
       buttonName: buttonName,
       clickTime: new Date().toISOString(),
     });
+
+    // Send click event to backend
+    fetch('https://cs-25-322-ai-clickstream-data.onrender.com/log-click', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId: sessionId,
+        buttonName: buttonName,
+        clickTime: new Date().toISOString(),
+      }),
+    }).catch((error) => console.error('Error logging click:', error));
   };
 
   const sendSessionData = () => {
@@ -177,18 +182,6 @@ const App = () => {
                     </Link>
                   ))}
                 </div>
-              </div>
-
-              {/* Clickstream Data (Optional) */}
-              <div className="click-data-container">
-                <h2>Logged Click Events</h2>
-                <ul>
-                  {clickData.map((click, index) => (
-                    <li key={index}>
-                      {click.buttonName} - {click.sessionId} - {new Date(click.clickTime).toLocaleString()}
-                    </li>
-                  ))}
-                </ul>
               </div>
             </div>
           }
