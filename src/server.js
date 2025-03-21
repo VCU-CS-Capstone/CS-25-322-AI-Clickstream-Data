@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import fs from 'fs';
 import { BetaAnalyticsDataClient } from '@google-analytics/data';
+import path from 'path';
 
 dotenv.config();
 const app = express();
@@ -104,6 +105,16 @@ app.get('/fetch-ga4-data', async (req, res) => {
       console.error(error);
       res.status(500).json({ error: error.message });
   }
+});
+
+
+// Serve React build files
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, 'build')));
+
+// Catch-all route for React Router
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 const PORT = process.env.PORT;
