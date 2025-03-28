@@ -39,27 +39,31 @@ async function simulateUser(userIndex) {
     console.log(`- User ${userIndex + 1} thinking about what to click first...`);
     await randomDelay(2000, 4000);
 
-    // Click banner icons randomly
-    const iconSelectors = [
-      { label: 'Phone Icon', selector: 'a[href^="tel:"]' },
-      { label: 'Email Icon', selector: 'a[href^="mailto:"]' },
-      { label: 'Support Icon', selector: 'a[href="/redirect"]' }
-    ];
+    // 1 in every 5 users will click a single top icon
+    if (userIndex % 5 === 0) {
+      const iconSelectors = [
+        { label: 'Phone Icon', selector: 'a[href^="tel:"]' },
+        { label: 'Email Icon', selector: 'a[href^="mailto:"]' },
+        { label: 'Support Icon', selector: 'a[href="/redirect"]' }
+      ];
 
-    const iconsToClick = iconSelectors.sort(() => 0.5 - Math.random()).slice(0, Math.floor(Math.random() * 3) + 1);
+      const selectedIcon = iconSelectors[Math.floor(Math.random() * iconSelectors.length)];
 
-    for (const icon of iconsToClick) {
       const clicked = await page.evaluate((selector) => {
         const el = document.querySelector(selector);
         if (el) el.click();
         return !!el;
-      }, icon.selector);
+      }, selectedIcon.selector);
 
       if (clicked) {
-        console.log(`- User ${userIndex + 1} clicked: ${icon.label}`);
+        console.log(`- User ${userIndex + 1} clicked: ${selectedIcon.label}`);
+        if (selectedIcon.label === 'Phone Icon') iconClickStats.phone++;
+        if (selectedIcon.label === 'Email Icon') iconClickStats.email++;
+        if (selectedIcon.label === 'Support Icon') iconClickStats.support++;
         await randomDelay(300, 800);
       }
     }
+
 
     // Choose a topic
     const topic = helpTopics[Math.floor(Math.random() * helpTopics.length)];
