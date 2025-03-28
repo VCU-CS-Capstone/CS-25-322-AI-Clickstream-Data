@@ -9,11 +9,7 @@ import logo from './assets/logo.png';
 import creditCardIcon from './assets/card.png';
 import bankAccountIcon from './assets/account.png';
 import autoIcon from './assets/auto.png';
-import travelIcon from './assets/travel.png';
 import fraudIcon from './assets/fraud.png';
-import loanIcon from './assets/loan.png';
-import chatIcon from './assets/rep.png';
-import atmIcon from './assets/atm.png';
 import bannerImage from './assets/banner.png';
 import ReactGA from 'react-ga4';
 
