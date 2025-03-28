@@ -74,7 +74,7 @@ body, html {
 .banner-image-container {
   width: 100%;
   text-align: center;
-  margin: 0px 0;
+  margin: 0;
 }
 
 .banner-image {
@@ -202,4 +202,43 @@ body, html {
   font-size: 0.9rem;
   color: #666666;
   text-align: center;
+}
+
+/* Back to Home Link */
+.back-home-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: #ffffff;
+  font-size: 1rem;
+  text-decoration: underline;
+  transition: opacity 0.2s ease;
+}
+
+.back-home-link:hover {
+  opacity: 0.8;
+}
+
+/* No Results Box */
+.no-results-box {
+  background-color: #f9f9f9;
+  border-left: 6px solid #d03027;
+  border-radius: 10px;
+  padding: 30px 25px;
+  margin: 30px auto;
+  max-width: 600px;
+  width: 90%;
+  color: #002b5c;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+  text-align: left;
+}
+
+.no-results-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.no-results-subtext {
+  font-size: 1rem;
+  color: #555;
 }
