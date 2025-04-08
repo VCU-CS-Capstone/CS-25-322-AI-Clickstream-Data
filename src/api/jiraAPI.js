@@ -1,82 +1,63 @@
-// 📁 src/api/jiraAPI.js
 import axios from 'axios';
 
-const JIRA_EMAIL = process.env.REACT_APP_JIRA_EMAIL;
-const JIRA_TOKEN = process.env.REACT_APP_JIRA_TOKEN;
-const JIRA_DOMAIN = process.env.REACT_APP_JIRA_DOMAIN;
-const AUTH_HEADER = {
+const domain = process.env.REACT_APP_JIRA_DOMAIN;
+const email = process.env.REACT_APP_JIRA_EMAIL;
+const token = process.env.REACT_APP_JIRA_TOKEN;
+
+const auth = {
   headers: {
-    Authorization: `Basic ${btoa(`${JIRA_EMAIL}:${JIRA_TOKEN}`)}`,
-    Accept: 'application/json',
-    'Content-Type': 'application/json'
-  }
+    Authorization: `Basic ${btoa(`${email}:${token}`)}`,
+    'Content-Type': 'application/json',
+  },
 };
 
-export const getIssues = async (projectKey, searchText = '') => {
-  const jql = `project=${projectKey}` + (searchText ? ` AND summary~"${searchText}"` : '');
+export const getIssues = async (projectKey) => {
   try {
-    const response = await axios.get(
-      `https://${JIRA_DOMAIN}/rest/api/3/search?jql=${encodeURIComponent(jql)}`,
-      AUTH_HEADER
-    );
+    const jql = `project=${projectKey} ORDER BY created DESC`;
+    const url = `https://${domain}/rest/api/3/search?jql=${encodeURIComponent(jql)}`;
+    const response = await axios.get(url, auth);
+    console.log('Fetched issues:', response.data);
     return response.data.issues;
   } catch (error) {
-    console.error('Error fetching issues:', error);
+    console.error('Error fetching issues:', error.response?.data || error);
     return [];
   }
 };
 
-export const createIssue = async (projectKey, summary, description, issueType = 'Task') => {
-  const issueData = {
-    fields: {
-      project: { key: projectKey },
-      summary,
-      description,
-      issuetype: { name: issueType }
-    }
-  };
-
+export const createIssue = async (projectKey, summary, description, issueType) => {
   try {
-    const response = await axios.post(
-      `https://${JIRA_DOMAIN}/rest/api/3/issue`,
-      issueData,
-      AUTH_HEADER
-    );
+    const url = `https://${domain}/rest/api/3/issue`;
+    const payload = {
+      fields: {
+        project: { key: projectKey },
+        summary,
+        description,
+        issuetype: { name: issueType },
+      },
+    };
+    const response = await axios.post(url, payload, auth);
+    console.log('Create issue response:', response.data);
     return response.data;
   } catch (error) {
-    console.error('Error creating issue:', error);
-    return null;
+    console.error('Error creating issue:', error.response?.data || error);
+    return { key: 'unknown' };
   }
 };
 
-export const updateIssue = async (issueIdOrKey, fieldsToUpdate) => {
-  const data = { fields: fieldsToUpdate };
+export const updateIssue = async (issueKey, summary, description) => {
   try {
-    const response = await axios.put(
-      `https://${JIRA_DOMAIN}/rest/api/3/issue/${issueIdOrKey}`,
-      data,
-      AUTH_HEADER
-    );
-    return response.data;
+    const url = `https://${domain}/rest/api/3/issue/${issueKey}`;
+    const payload = {
+      fields: {
+        summary,
+        description,
+      },
+    };
+    const response = await axios.put(url, payload, auth);
+    console.log('Update issue response:', response.status);
+    return response.status === 204;
   } catch (error) {
-    console.error('Error updating issue:', error);
-    return null;
+    console.error('Error updating issue:', error.response?.data || error);
+    return false;
   }
-};
-
-export const createMockEpics = async (projectKey, num = 3) => {
-  const mockSummaries = [
-    'Improve Help Center UI',
-    'Add Feedback Tracking System',
-    'Enhance Recommendation Engine'
-  ];
-
-  const created = [];
-  for (let i = 0; i < num; i++) {
-    const summary = mockSummaries[i % mockSummaries.length] + ` #${i + 1}`;
-    const desc = `Auto-generated Epic for customer support insight.`;
-    const issue = await createIssue(projectKey, summary, desc, 'Epic');
-    if (issue) created.push(issue);
-  }
-  return created;
 };
