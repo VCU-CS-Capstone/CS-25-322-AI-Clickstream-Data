@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 import RedirectedPage from './RedirectedPage.js';
 import HelpTopic from './HelpTopic.js';
+import JiraDashboard from './components/JiraDashboard.js';
+import CreateIssueForm from './components/CreateIssueForm.js';
+import { generateMockEpics } from './mockData/epicGenerator.js';
 
 import TagManager from 'react-gtm-module';
 
@@ -38,12 +41,11 @@ const App = () => {
     { name: 'Report Fraud', icon: fraudIcon, description: 'Report suspicious activity or fraud' },
   ];
 
-  const [sessionId, setSessionId] = useState(localStorage.getItem('sessionId') || generateSessionId());
+  const [sessionId] = useState(localStorage.getItem('sessionId') || generateSessionId());
   useEffect(() => {
     localStorage.setItem('sessionId', sessionId);
   }, [sessionId]);
 
-  // Track page views in GTM
   useEffect(() => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
@@ -58,30 +60,17 @@ const App = () => {
       topic.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredTopics(results);
-
-    // Push search event to GTM
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: 'search',
-      search_term: searchTerm,
-    });
-
-    console.log('Search event pushed to GTM:', searchTerm);
+    window.dataLayer.push({ event: 'search', search_term: searchTerm });
   };
 
   const handleButtonClick = (buttonName) => {
     console.log(`Button clicked: ${buttonName}`);
-
-    // Push click event to GTM
-    window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
       event: 'button_click',
       sessionId: sessionId,
       buttonName: buttonName,
       clickTime: new Date().toISOString(),
     });
-
-    // Send click event to backend
     fetch('https://cs-25-322-ai-clickstream-data.onrender.com/log-click', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -108,7 +97,12 @@ const App = () => {
     const handleBeforeUnload = () => sendSessionData();
     window.addEventListener('beforeunload', handleBeforeUnload);
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-  }, []);
+  }, [sendSessionData]);
+
+  const handleGenerateEpics = async () => {
+    const epics = await generateMockEpics('MYH', 3);
+    alert(`Created ${epics.length} mock epics.`);
+  };
 
   return (
     <Router>
@@ -117,7 +111,6 @@ const App = () => {
           path="/"
           element={
             <div className="App">
-              {/* Top Banner */}
               <div className="banner">
                 <div className="banner-left">
                   <img src={logo} alt="Bank Logo" className="banner-logo" />
@@ -137,12 +130,10 @@ const App = () => {
                 </div>
               </div>
 
-              {/* Banner Image Section */}
               <div className="banner-image-container">
                 <img src={bannerImage} alt="Promotional Banner" className="banner-image" />
               </div>
 
-              {/* Search Section */}
               <div className="search-container">
                 <input
                   type="text"
@@ -162,15 +153,11 @@ const App = () => {
                 </button>
               </div>
 
-              {/* Help Topics Section */}
               <div className="bottom-banner">
                 <h2 className="bottom-banner-title">What can we help you with?</h2>
                 <div className="button-container">
                   {(filteredTopics.length > 0 ? filteredTopics : topics).map((topic, index) => (
-                    <Link
-                      to={`/help/${topic.name.toLowerCase().replace(/ /g, '-')}`}
-                      key={index}
-                    >
+                    <Link to={`/help/${topic.name.toLowerCase().replace(/ /g, '-')}`} key={index}>
                       <button
                         onClick={() => handleButtonClick(topic.name)}
                         className="bottom-banner-button"
@@ -182,6 +169,13 @@ const App = () => {
                     </Link>
                   ))}
                 </div>
+              </div>
+
+              <div className="jira-section">
+                <h2>📋 JIRA Integration</h2>
+                <JiraDashboard projectKey="MYH" />
+                <CreateIssueForm projectKey="MYH" />
+                <button onClick={handleGenerateEpics}>Generate Mock Epics</button>
               </div>
             </div>
           }

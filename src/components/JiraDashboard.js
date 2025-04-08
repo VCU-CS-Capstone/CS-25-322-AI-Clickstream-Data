@@ -1,0 +1,40 @@
+// 📁 src/components/JiraDashboard.js
+import React, { useEffect, useState } from 'react';
+import { getIssues } from '../api/jiraAPI.js';
+
+const JiraDashboard = ({ projectKey }) => {
+  const [issues, setIssues] = useState([]);
+  const [search, setSearch] = useState('');
+
+  const fetchIssues = async () => {
+    const result = await getIssues(projectKey, search);
+    setIssues(result);
+  };
+
+  useEffect(() => {
+    fetchIssues();
+  }, []);
+
+  return (
+    <div>
+      <h2>JIRA Issues for Project: {projectKey}</h2>
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Search issues by summary"
+      />
+      <button onClick={fetchIssues}>Search</button>
+
+      <ul>
+        {issues.map((issue) => (
+          <li key={issue.id}>
+            <strong>{issue.key}</strong>: {issue.fields.summary}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default JiraDashboard;
