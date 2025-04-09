@@ -24,14 +24,24 @@ export default async function handler(req, res) {
         }
       })
     });
-  
+
     const data = await response.json();
-  
+
     if (!response.ok) {
-        console.error('JIRA API error:', data);
-        return res.status(response.status).json({ error: data });
+        console.error('🔴 JIRA API ERROR:', {
+            status: response.status,
+            message: data,
+            request: {
+                summary,
+                description,
+                issueType,
+                projectKey,
+            }
+        });
+    return res.status(response.status).json({ error: data });
     }
-  
+
+    console.log('✅ JIRA issue created:', data);
     return res.status(200).json(data);
   }
   
