@@ -25,24 +25,20 @@ export const getIssues = async (projectKey) => {
 };
 
 export const createIssue = async (projectKey, summary, description, issueType) => {
-  try {
-    const url = `https://${domain}/rest/api/3/issue`;
-    const payload = {
-      fields: {
-        project: { key: projectKey },
+    try {
+      const response = await axios.post('/api/create-issue', {
+        projectKey,
         summary,
         description,
-        issuetype: { name: issueType },
-      },
-    };
-    const response = await axios.post(url, payload, auth);
-    console.log('Create issue response:', response.data);
-    return response.data;
-  } catch (error) {
-    console.error('Error creating issue:', error.response?.data || error);
-    return { key: 'unknown' };
-  }
-};
+        issueType
+      });
+      console.log('Proxy response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error from proxy:', error.response?.data || error);
+      return { key: 'unknown' };
+    }
+  };
 
 export const updateIssue = async (issueKey, summary, description) => {
   try {
