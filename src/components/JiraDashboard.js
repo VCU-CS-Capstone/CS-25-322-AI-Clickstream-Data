@@ -1,7 +1,7 @@
 // src/components/JiraDashboard.js
 import React, { useEffect, useState } from 'react';
-import { getIssues } from '../api/jiraAPI';
-import CreateIssueForm from './CreateIssueForm';
+import { getIssues } from '../api/jiraAPI.js';
+import CreateIssueForm from './CreateIssueForm.js';
 import './JiraDashboard.css';
 
 const JiraDashboard = ({ projectKey }) => {
