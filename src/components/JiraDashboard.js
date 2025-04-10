@@ -1,4 +1,3 @@
-// 📁 src/components/JiraDashboard.js
 import React, { useEffect, useState } from 'react';
 import { getIssues } from '../api/jiraAPI.js';
 
@@ -7,13 +6,14 @@ const JiraDashboard = ({ projectKey }) => {
   const [search, setSearch] = useState('');
 
   const fetchIssues = async () => {
+    console.log("🔍 Searching for:", search);
     const result = await getIssues(projectKey, search);
     setIssues(result);
   };
 
   useEffect(() => {
     fetchIssues();
-  }, []);
+  }, []); // initial load only
 
   return (
     <div>
@@ -27,11 +27,15 @@ const JiraDashboard = ({ projectKey }) => {
       <button onClick={fetchIssues}>Search</button>
 
       <ul>
-        {issues.map((issue) => (
-          <li key={issue.id}>
-            <strong>{issue.key}</strong>: {issue.fields.summary}
-          </li>
-        ))}
+        {issues.length === 0 ? (
+          <li>No matching issues found.</li>
+        ) : (
+          issues.map((issue) => (
+            <li key={issue.id}>
+              <strong>{issue.key}</strong>: {issue.fields.summary}
+            </li>
+          ))
+        )}
       </ul>
     </div>
   );

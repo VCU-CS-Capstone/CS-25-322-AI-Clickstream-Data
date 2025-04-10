@@ -13,11 +13,9 @@ export default async function handler(req, res) {
     const jql = `project=MYH AND summary~"${searchTerm}"`;
     const url = `https://${domain}/rest/api/3/search?jql=${encodeURIComponent(jql)}`;
   
-    console.log("🔍 JQL URL:", url);
-  
     try {
       const response = await fetch(url, {
-        method: "GET",
+        method: 'GET',
         headers: {
           Authorization: `Basic ${auth}`,
           Accept: 'application/json',
