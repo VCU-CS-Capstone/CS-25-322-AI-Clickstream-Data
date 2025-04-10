@@ -11,15 +11,16 @@ const auth = {
   },
 };
 
-export const getIssues = async (projectKey) => {
+export const getIssues = async (projectKey, searchTerm) => {
   try {
-    const jql = `project=${projectKey} ORDER BY created DESC`;
-    const url = `https://${domain}/rest/api/3/search?jql=${encodeURIComponent(jql)}`;
-    const response = await axios.get(url, auth);
-    console.log('Fetched issues:', response.data);
-    return response.data.issues;
+    const response = await axios.post('/api/search-issues', {
+      projectKey,
+      searchTerm,
+    });
+    console.log('🔍 Search result:', response.data);
+    return response.data.issues || [];
   } catch (error) {
-    console.error('Error fetching issues:', error.response?.data || error);
+    console.error('❌ Error from proxy (search):', error.response?.data || error);
     return [];
   }
 };
