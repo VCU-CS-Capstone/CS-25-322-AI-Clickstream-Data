@@ -1,24 +1,26 @@
-import './JiraDashboard.css';
 import React, { useEffect, useState } from 'react';
 import { getIssues } from '../api/jiraAPI.js';
+import './JiraDashboard.css'; // ✅ Make sure this is at the top
 
 const JiraDashboard = ({ projectKey }) => {
   const [issues, setIssues] = useState([]);
   const [search, setSearch] = useState('');
 
   const fetchIssues = async () => {
-    console.log("🔍 Searching for:", search);
+    console.log('🔍 Searching for:', search);
     const result = await getIssues(projectKey, search);
     setIssues(result);
   };
 
   useEffect(() => {
     fetchIssues();
-  }, []); // initial load only
+  }, []);
 
   return (
-    <div>
-      <h2>JIRA Issues for Project: {projectKey}</h2>
+    <div className="jira-dashboard"> {/* ✅ This wrapper applies the styles */}
+      <h2>📋 JIRA Integration</h2>
+      <h3>JIRA Issues for Project: {projectKey}</h3>
+
       <input
         type="text"
         value={search}
