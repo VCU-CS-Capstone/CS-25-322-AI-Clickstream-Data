@@ -1,70 +1,59 @@
-.jira-dashboard-container {
-    background-color: #f5f7fa;
+.jira-dashboard {
+    background-color: #f4f6f8;
     padding: 2rem;
-    border-radius: 16px;
-    max-width: 90%;
     margin: 2rem auto;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  }
-  
-  .jira-title {
-    text-align: center;
-    font-size: 1.75rem;
-    margin-bottom: 2rem;
-    color: #0c2d5e;
-  }
-  
-  .jira-section-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: center;
-    align-items: flex-start;
-  }
-  
-  .jira-issues,
-  .jira-create {
-    flex: 1 1 400px;
-    background-color: white;
-    padding: 2rem;
+    max-width: 800px;
     border-radius: 16px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    font-family: 'Helvetica Neue', sans-serif;
   }
   
-  .search-row {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
+  .jira-dashboard h2 {
+    text-align: center;
+    color: #003366;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
   }
   
-  .search-row input {
-    flex: 1;
-    padding: 0.5rem 1rem;
-    border: 2px solid #0c2d5e;
+  .jira-dashboard input[type="text"] {
+    width: 70%;
+    padding: 0.6rem 1rem;
+    margin-right: 0.5rem;
+    border: 2px solid #003366;
     border-radius: 8px;
     font-size: 1rem;
   }
   
-  .search-row button {
-    background-color: #304f7e;
+  .jira-dashboard button {
+    padding: 0.6rem 1.2rem;
+    background-color: #003366;
     color: white;
-    padding: 0.5rem 1.25rem;
+    font-weight: bold;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-weight: bold;
+    transition: background-color 0.3s ease;
   }
   
-  .issues-list {
-    list-style: none;
-    padding: 0;
+  .jira-dashboard button:hover {
+    background-color: #0055a5;
   }
   
-  .issues-list li {
-    background-color: #f1f4f9;
-    padding: 0.75rem;
-    border-radius: 8px;
+  .jira-dashboard ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 1rem;
+  }
+  
+  .jira-dashboard li {
+    padding: 0.8rem;
     margin-bottom: 0.5rem;
-    border-left: 4px solid #0c2d5e;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-left: 5px solid #003366;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333;
   }
   
