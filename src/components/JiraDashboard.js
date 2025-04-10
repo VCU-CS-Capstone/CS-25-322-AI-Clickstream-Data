@@ -1,3 +1,4 @@
+import './JiraDashboard.css';
 import React, { useEffect, useState } from 'react';
 import { getIssues } from '../api/jiraAPI.js';
 

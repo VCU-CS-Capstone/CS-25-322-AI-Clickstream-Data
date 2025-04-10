@@ -1,0 +1,59 @@
+.jira-dashboard {
+    background-color: #f4f6f8;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 800px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    font-family: 'Helvetica Neue', sans-serif;
+  }
+  
+  .jira-dashboard h2 {
+    text-align: center;
+    color: #003366;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .jira-dashboard input[type="text"] {
+    width: 70%;
+    padding: 0.6rem 1rem;
+    margin-right: 0.5rem;
+    border: 2px solid #003366;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+  
+  .jira-dashboard button {
+    padding: 0.6rem 1.2rem;
+    background-color: #003366;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .jira-dashboard button:hover {
+    background-color: #0055a5;
+  }
+  
+  .jira-dashboard ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 1rem;
+  }
+  
+  .jira-dashboard li {
+    padding: 0.8rem;
+    margin-bottom: 0.5rem;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-left: 5px solid #003366;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333;
+  }
+  
