@@ -2,12 +2,22 @@
 import { google } from 'googleapis';
 
 export default async function handler(req, res) {
+  // ✅ Step 1: TEMPORARY LOGS
+  console.log("🔍 GA_CREDENTIALS_JSON present:", !!process.env.GA_CREDENTIALS_JSON);
+  console.log("🔍 GA4_PROPERTY_ID:", process.env.GA4_PROPERTY_ID);
+
   try {
-    // Load credentials and property ID from environment
-    const credentials = JSON.parse(process.env.GA_CREDENTIALS_JSON);
+    // ✅ Step 2: Wrapped parsing in try/catch
+    let credentials;
+    try {
+      credentials = JSON.parse(process.env.GA_CREDENTIALS_JSON);
+    } catch (err) {
+      console.error('❌ Failed to parse GA_CREDENTIALS_JSON:', err.message);
+      return res.status(500).json({ error: 'Invalid GA_CREDENTIALS_JSON format' });
+    }
+
     const propertyId = process.env.GA4_PROPERTY_ID;
 
-    // Authenticate with Google
     const auth = new google.auth.GoogleAuth({
       credentials,
       scopes: ['https://www.googleapis.com/auth/analytics.readonly'],
@@ -18,7 +28,6 @@ export default async function handler(req, res) {
       auth: await auth.getClient(),
     });
 
-    // Query data
     const response = await analyticsDataClient.properties.runReport({
       property: `properties/${propertyId}`,
       requestBody: {
@@ -38,7 +47,6 @@ export default async function handler(req, res) {
       },
     });
 
-    // Return formatted data
     res.status(200).json({
       rows: response.data.rows || [],
       headers: response.data.dimensionHeaders.concat(response.data.metricHeaders),
