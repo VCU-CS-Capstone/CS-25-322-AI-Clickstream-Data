@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getIssues } from '../api/jiraAPI.js';
+import { getIssues } from '../utils/jiraAPI.js';
 import './JiraDashboard.css'; // ✅ Make sure this is at the top
 
 const JiraDashboard = ({ projectKey }) => {

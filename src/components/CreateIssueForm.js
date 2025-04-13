@@ -1,6 +1,6 @@
 // 📁 src/components/CreateIssueForm.js
 import React, { useState } from 'react';
-import { createIssue, updateIssue } from '../api/jiraAPI.js';
+import { createIssue, updateIssue } from '../utils/jiraAPI.js';
 
 const CreateIssueForm = ({ projectKey }) => {
   const [summary, setSummary] = useState('');
@@ -11,7 +11,7 @@ const CreateIssueForm = ({ projectKey }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (updatingKey) {
-      await updateIssue(updatingKey, { summary, description });
+      await updateIssue(updatingKey, { summary, description }); // ✅ fixed here
       alert(`Updated issue: ${updatingKey}`);
     } else {
       const issue = await createIssue(projectKey, summary, description, issueType);

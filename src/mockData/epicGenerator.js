@@ -1,5 +1,5 @@
 // 📁 src/mockData/epicGenerator.js
-import { createIssue } from '../api/jiraAPI.js';
+import { createIssue } from '../utils/jiraAPI.js';
 
 const sampleTitles = [
   'Improve Dashboard Performance',
