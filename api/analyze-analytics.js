@@ -12,11 +12,17 @@ export default async function handler(req, res) {
 
   const { analyticsData, question } = req.body;
 
+  if (!analyticsData) {
+    console.error('❌ Missing analyticsData in request body');
+    return res.status(400).json({ error: 'Missing analytics data' });
+  }
+
   try {
     const prompt = question
       ? `Based on this Google Analytics data:\n${JSON.stringify(analyticsData, null, 2)}\n\nAnswer the question: "${question}"`
       : `Based on this Google Analytics data:\n${JSON.stringify(analyticsData, null, 2)}\n\nGenerate website improvement suggestions and create JIRA task recommendations (label them [Task], [Bug], [Story], or [Epic]).`;
 
+    console.log('📤 Sending prompt to OpenAI...');
     const completion = await openai.createChatCompletion({
       model: 'gpt-4',
       messages: [{ role: 'user', content: prompt }],
@@ -24,6 +30,7 @@ export default async function handler(req, res) {
     });
 
     const output = completion.data.choices[0].message.content;
+    console.log('✅ Received OpenAI suggestions');
     res.status(200).json({ suggestions: output });
   } catch (err) {
     console.error('❌ OpenAI error:', err.response?.data || err.message);
