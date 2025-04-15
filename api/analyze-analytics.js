@@ -23,13 +23,12 @@ export default async function handler(req, res) {
 
     console.log('📤 Prompt being sent to OpenAI:\n', prompt);
 
-    const completion = await openai.createChatCompletion({
-      model: 'gpt-4',
-      messages: [{ role: 'user', content: prompt }],
-      temperature: 0.7,
-    });
-
-    const output = completion?.data?.choices?.[0]?.message?.content;
+    const completion = await openai.chat.completions.create({
+        model: 'gpt-4',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.7,
+      });
+      const output = completion.choices[0].message.content;
 
     if (!output) {
       console.error('⚠️ Unexpected OpenAI response:', completion?.data);
