@@ -18,22 +18,25 @@ export default async function handler(req, res) {
   }
 
   try {
+    console.log('📊 Received analyticsData:', analyticsData);
+  
     const prompt = question
       ? `Based on this Google Analytics data:\n${JSON.stringify(analyticsData, null, 2)}\n\nAnswer the question: "${question}"`
       : `Based on this Google Analytics data:\n${JSON.stringify(analyticsData, null, 2)}\n\nGenerate website improvement suggestions and create JIRA task recommendations (label them [Task], [Bug], [Story], or [Epic]).`;
-
+  
     console.log('📤 Sending prompt to OpenAI...');
     const completion = await openai.createChatCompletion({
       model: 'gpt-4',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.7,
     });
-
+  
     const output = completion.data.choices[0].message.content;
     console.log('✅ Received OpenAI suggestions');
     res.status(200).json({ suggestions: output });
   } catch (err) {
-    console.error('❌ OpenAI error:', err.response?.data || err.message);
-    res.status(500).json({ error: 'AI analysis failed' });
+    const safeError = err.response?.data || err.message || 'Unknown error';
+    console.error('❌ OpenAI error:', safeError);
+    res.status(500).json({ error: safeError });
   }
 }

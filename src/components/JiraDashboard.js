@@ -39,21 +39,33 @@ const JiraDashboard = ({ projectKey }) => {
 
   // ✅ Trigger AI suggestion generation
   const fetchAISuggestions = async () => {
-    if (!analyticsData) {
-      alert('Analytics data not yet loaded');
+    if (!analyticsData || typeof analyticsData !== 'object') {
+      alert('Analytics data not yet loaded or malformed');
       return;
     }
-
+  
     try {
-      const res = await fetch('/api/analyze-analytics', {
+      const response = await fetch('/api/analyze-analytics', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ analyticsData })
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ analyticsData }),
       });
-      const result = await res.json();
+  
+      const contentType = response.headers.get('content-type');
+      const isJson = contentType && contentType.includes('application/json');
+  
+      if (!response.ok) {
+        const error = isJson ? await response.json() : await response.text();
+        throw new Error(error?.error || error || 'Unknown error');
+      }
+  
+      const result = await response.json();
+      console.log('✅ AI Suggestions:', result);
       setAiSuggestions(result.suggestions);
     } catch (err) {
-      console.error('❌ Error fetching AI suggestions:', err);
+      console.error('❌ Error fetching AI suggestions:', err.message || err);
       setAiSuggestions('Error retrieving suggestions.');
     }
   };
