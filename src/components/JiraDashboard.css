@@ -56,4 +56,12 @@
     font-size: 1rem;
     color: #333;
   }
-  
+
+  .ai-suggestions {
+    background-color: #f9f9f9;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+    font-family: monospace;
+    white-space: pre-wrap;
+  }

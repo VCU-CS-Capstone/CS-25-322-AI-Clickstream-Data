@@ -1,3 +1,5 @@
+// src/components/JiraDashboard.js
+
 import React, { useEffect, useState } from 'react';
 import { getIssues } from '../utils/jiraAPI.js';
 import './JiraDashboard.css';
@@ -5,7 +7,25 @@ import './JiraDashboard.css';
 const JiraDashboard = ({ projectKey }) => {
   const [issues, setIssues] = useState([]);
   const [search, setSearch] = useState('');
+  const [analyticsData, setAnalyticsData] = useState(null);
+  const [aiSuggestions, setAiSuggestions] = useState('');
 
+  // ✅ Fetch analytics data on mount
+  useEffect(() => {
+    const fetchAnalytics = async () => {
+      try {
+        const res = await fetch('/api/fetch-analytics');
+        const data = await res.json();
+        setAnalyticsData(data);
+        console.log('📊 Analytics fetched:', data);
+      } catch (err) {
+        console.error('❌ Failed to fetch analytics:', err);
+      }
+    };
+    fetchAnalytics();
+  }, []);
+
+  // ✅ Fetch issues when user searches
   const fetchIssues = async () => {
     if (!search.trim()) {
       alert('Please enter a search term');
@@ -17,10 +37,26 @@ const JiraDashboard = ({ projectKey }) => {
     setIssues(result);
   };
 
-  useEffect(() => {
-    // optionally load all issues on first render
-    // fetchIssues();
-  }, []);
+  // ✅ Trigger AI suggestion generation
+  const fetchAISuggestions = async () => {
+    if (!analyticsData) {
+      alert('Analytics data not yet loaded');
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/analyze-analytics', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ analyticsData })
+      });
+      const result = await res.json();
+      setAiSuggestions(result.suggestions);
+    } catch (err) {
+      console.error('❌ Error fetching AI suggestions:', err);
+      setAiSuggestions('Error retrieving suggestions.');
+    }
+  };
 
   return (
     <div className="jira-dashboard">
@@ -46,6 +82,17 @@ const JiraDashboard = ({ projectKey }) => {
           ))
         )}
       </ul>
+
+      <hr />
+
+      <h3>💡 AI Suggestions</h3>
+      <button onClick={fetchAISuggestions}>Generate AI Insights</button>
+
+      {aiSuggestions && (
+        <div className="ai-suggestions">
+          <pre>{aiSuggestions}</pre>
+        </div>
+      )}
     </div>
   );
 };
