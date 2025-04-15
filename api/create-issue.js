@@ -3,7 +3,7 @@ export default async function handler(req, res) {
       return res.status(405).json({ error: 'Method not allowed' });
     }
   
-    const { summary, description, issueType, projectKey } = req.body;
+    const { summary, description, issuetype, projectKey } = req.body;
   
     const domain = process.env.REACT_APP_JIRA_DOMAIN;
     const email = process.env.REACT_APP_JIRA_EMAIL;
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
               }
             ]
           },
-          issuetype: { name: issueType }
+          issuetype: { name: issuetype }
         }
       }),
       
@@ -49,7 +49,7 @@ export default async function handler(req, res) {
             request: {
                 summary,
                 description,
-                issueType,
+                issuetype,
                 projectKey,
             }
         });

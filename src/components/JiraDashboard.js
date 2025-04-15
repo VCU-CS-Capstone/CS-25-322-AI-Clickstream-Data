@@ -70,6 +70,46 @@ const JiraDashboard = ({ projectKey }) => {
     }
   };
 
+  const generateJiraIssues = async () => {
+    if (!aiSuggestions) {
+      alert("No AI suggestions available to process.");
+      return;
+    }
+  
+    const lines = aiSuggestions.split('\n').filter(line =>
+      /^\d+\.\s\[(Task|Bug|Story|Epic)\]/.test(line)
+    );
+  
+    for (const line of lines) {
+      const typeMatch = line.match(/\[(Task|Bug|Story|Epic)\]/);
+      const summaryMatch = line.match(/\]\s(.+?):/);
+  
+      if (!typeMatch || !summaryMatch) continue;
+  
+      const issueType = typeMatch[1];
+      const summary = summaryMatch[1].trim();
+      const description = line.split(':').slice(1).join(':').trim();
+  
+      try {
+        const res = await fetch('/api/create-issue', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            projectKey,
+            summary,
+            description,
+            issuetype: issueType,
+          }),
+        });
+  
+        const result = await res.json();
+        console.log(`✅ Created ${issueType}:`, result.key || result);
+      } catch (err) {
+        console.error('❌ Failed to create JIRA issue:', err);
+      }
+    }
+  };
+
   return (
     <div className="jira-dashboard">
       <h2>📋 JIRA Integration</h2>
@@ -98,7 +138,10 @@ const JiraDashboard = ({ projectKey }) => {
       <hr />
 
       <h3>💡 AI Suggestions</h3>
-      <button onClick={fetchAISuggestions}>Generate AI Insights</button>
+      <div className="button-row">
+        <button onClick={fetchAISuggestions}>Generate AI Insights</button>
+        <button onClick={generateJiraIssues} style={{ marginLeft: '1rem' }}>Auto Generate JIRA Issues</button>
+      </div>
 
       {aiSuggestions && (
         <div className="ai-suggestions">
