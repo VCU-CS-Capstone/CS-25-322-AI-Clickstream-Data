@@ -187,6 +187,4 @@ const App = () => {
   );
 };
 
-export default App;
-
-// test
+export default App
