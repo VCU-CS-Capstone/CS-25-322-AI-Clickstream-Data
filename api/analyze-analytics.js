@@ -17,22 +17,31 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing analytics data' });
     }
 
-    const prompt = question
-      ? `Based on this Google Analytics data:\n${JSON.stringify(analyticsData, null, 2)}\n\nAnswer the question: "${question}"`
-      : `Based on this Google Analytics data:\n${JSON.stringify(analyticsData, null, 2)}\n\nGenerate website improvement suggestions and create JIRA task recommendations (label them [Task], [Bug], [Story], or [Epic]).`;
+    // ✅ Trim the analytics data to reduce payload size
+    const trimmedAnalytics = {
+      headers: analyticsData.headers,
+      rows: analyticsData.rows?.slice(0, 5) || []
+    };
 
-    console.log('📤 Prompt being sent to OpenAI:\n', prompt);
+    console.log(`📊 Trimmed analytics size: ${JSON.stringify(trimmedAnalytics).length} characters`);
+
+    const prompt = question
+      ? `You are a web analytics assistant. Based on the following Google Analytics data, answer the question:\n\n"${question}"\n\nAnalytics Sample:\n${JSON.stringify(trimmedAnalytics, null, 2)}`
+      : `You are a web analytics assistant. Based on the following Google Analytics data, generate improvement suggestions and create JIRA task recommendations. Label suggestions with [Task], [Bug], [Story], or [Epic].\n\nAnalytics Sample:\n${JSON.stringify(trimmedAnalytics, null, 2)}`;
+
+    console.log('📤 Prompt sent to OpenAI:\n', prompt);
 
     const completion = await openai.chat.completions.create({
-        model: 'gpt-4',
-        messages: [{ role: 'user', content: prompt }],
-        temperature: 0.7,
-      });
-      const output = completion.choices[0].message.content;
+      model: 'gpt-4',
+      messages: [{ role: 'user', content: prompt }],
+      temperature: 0.7,
+    });
+
+    const output = completion.choices[0]?.message?.content;
 
     if (!output) {
-      console.error('⚠️ Unexpected OpenAI response:', completion?.data);
-      return res.status(500).json({ error: 'OpenAI returned invalid response format' });
+      console.error('⚠️ Unexpected OpenAI response:', completion);
+      return res.status(500).json({ error: 'OpenAI returned an invalid response format' });
     }
 
     console.log('✅ OpenAI suggestions generated successfully');
