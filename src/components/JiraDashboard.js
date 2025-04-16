@@ -79,7 +79,7 @@ const JiraDashboard = ({ projectKey }) => {
     const lines = aiSuggestions
       .split('\n')
       .map(line => line.trim())
-      .filter(line => /^\d+\.\s\[(Task|Bug|Story|Epic)\]/.test(line)); // match numbered JIRA lines
+      .filter(line => /^\[?(Task|Bug|Story|Epic)\]?/i.test(line));
   
     if (lines.length === 0) {
       alert("No valid JIRA-formatted suggestions found.");
@@ -88,7 +88,7 @@ const JiraDashboard = ({ projectKey }) => {
   
     for (const line of lines) {
       const typeMatch = line.match(/\[(Task|Bug|Story|Epic)\]/);
-      const summaryMatch = line.match(/\]\s(.+?):/);
+      const summaryMatch = line.match(/\]\s*(.+?)(:|$)/);
   
       if (!typeMatch || !summaryMatch) continue;
   
