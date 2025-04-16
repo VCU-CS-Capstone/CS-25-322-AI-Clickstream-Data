@@ -151,7 +151,14 @@ const JiraDashboard = ({ projectKey }) => {
 
       {aiSuggestions && (
         <div className="ai-suggestions">
-          <pre>{aiSuggestions}</pre>
+          <ul>
+            {aiSuggestions
+              .split('\n')
+              .filter(line => line.trim().length > 0)
+              .map((item, idx) => (
+                <li key={idx}>{item.trim()}</li>
+              ))}
+          </ul>
         </div>
       )}
     </div>
