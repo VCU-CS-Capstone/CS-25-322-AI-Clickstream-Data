@@ -174,6 +174,13 @@ const handleSubtopicClick = (subtopic) => {
                     if (amount > 0 && amount <= creditBalance) {
                       setCreditBalance(creditBalance - amount);
                       setConfirmationMessage(`Payment of $${amount.toFixed(2)} processed successfully!`);
+
+                      window.dataLayer.push({
+                        event: 'confirm_payment',
+                        amount_paid: amount.toFixed(2),
+                        source: 'credit_card',
+                        clickTime: new Date().toISOString(),
+                      });
                     } else if (amount > creditBalance) {
                       setConfirmationMessage("Payment exceeds balance. Enter a valid amount.");
                     } else {
@@ -184,6 +191,7 @@ const handleSubtopicClick = (subtopic) => {
                 >
                   Pay Now
                 </button>
+
               </div>
             )}
 
@@ -195,6 +203,13 @@ const handleSubtopicClick = (subtopic) => {
                   if (pointsUsed <= rewardPoints) {
                     setRewardPoints(rewardPoints - pointsUsed);
                     setConfirmationMessage("Reward redeemed!");
+
+                    window.dataLayer.push({
+                      event: 'reward_redeemed',
+                      reward_type: pointsUsed === 2500 ? 'Gift Card' : 'Cashback',
+                      points_used: pointsUsed,
+                      clickTime: new Date().toISOString(),
+                    });
                   } else {
                     setConfirmationMessage("Not enough points to redeem this reward.");
                   }
@@ -218,6 +233,13 @@ const handleSubtopicClick = (subtopic) => {
                 <button className="confirm-button" onClick={() => {
                   if (spendingLimit > 0) {
                     setConfirmationMessage(`Spending limit set to $${spendingLimit}`);
+
+                    window.dataLayer.push({
+                      event: 'limit_set',
+                      limit_value: spendingLimit,
+                      source: 'credit_card',
+                      clickTime: new Date().toISOString(),
+                    });
                   } else {
                     setConfirmationMessage("Enter a valid spending limit.");
                   }
@@ -233,6 +255,13 @@ const handleSubtopicClick = (subtopic) => {
     onClick={() => {
       setConfirmationMessage("Your card has been reported lost/stolen. A new one will be sent within 5-7 business days.");
       setCardDisabled(true); // Disables the button after reporting
+
+      window.dataLayer.push({
+        event: 'card_reported',
+        reason: 'lost/stolen',
+        source: 'credit_card',
+        clickTime: new Date().toISOString(),
+      });
     }}
     disabled={cardDisabled}
   >
@@ -260,7 +289,14 @@ const handleSubtopicClick = (subtopic) => {
           const increaseAmount = parseInt(creditLimitIncrease, 10);
           setCreditLimit(creditLimit + increaseAmount);
           setConfirmationMessage(`Credit limit increased to $${creditLimit + increaseAmount}`);
-          setCreditLimitIncrease(""); // Reset dropdown
+          setCreditLimitIncrease("");
+
+          window.dataLayer.push({
+            event: 'credit_increase_requested',
+            increase_amount: increaseAmount,
+            new_limit: creditLimit + increaseAmount,
+            clickTime: new Date().toISOString(),
+          });
         } else {
           setConfirmationMessage("Select a valid credit limit increase.");
         }
