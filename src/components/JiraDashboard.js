@@ -18,6 +18,14 @@ const JiraDashboard = ({ projectKey }) => {
         const data = await res.json();
         setAnalyticsData(data);
         console.log('📊 Analytics fetched:', data);
+
+        window.dataLayer.push({
+          event: 'button_click',
+          button_name: 'Fetch GA Analytics',
+          source: 'ga4',
+          clickTime: new Date().toISOString(),
+        });
+        
       } catch (err) {
         console.error('❌ Failed to fetch analytics:', err);
       }
@@ -35,6 +43,15 @@ const JiraDashboard = ({ projectKey }) => {
     console.log('🔍 Searching for:', search);
     const result = await getIssues(projectKey, search);
     setIssues(result);
+
+    window.dataLayer.push({
+      event: 'button_click',
+      button_name: 'Search JIRA',
+      search_term: search,
+      source: 'jira_integration',
+      clickTime: new Date().toISOString(),
+    });
+
   };
 
   // ✅ Trigger AI suggestion generation
@@ -64,6 +81,15 @@ const JiraDashboard = ({ projectKey }) => {
       const result = await response.json();
       console.log('✅ AI Suggestions:', result);
       setAiSuggestions(result.suggestions);
+
+      window.dataLayer.push({
+        event: 'button_click',
+        button_name: 'AI Analyze Analytics',
+        row_count: analyticsData?.rows?.length || 0,
+        source: 'openai_integration',
+        clickTime: new Date().toISOString(),
+      });
+      
     } catch (err) {
       console.error('❌ Error fetching AI suggestions:', err.message || err);
       setAiSuggestions('Error retrieving suggestions.');
@@ -110,6 +136,16 @@ const JiraDashboard = ({ projectKey }) => {
   
         const result = await res.json();
         console.log(`✅ Created ${issueType}:`, result.key || result);
+
+        window.dataLayer.push({
+          event: 'button_click',
+          button_name: 'Auto-Create JIRA Issue from AI',
+          issue_type: issueType,
+          issue_summary: summary,
+          source: 'jira_integration',
+          clickTime: new Date().toISOString(),
+        });
+        
       } catch (err) {
         console.error('❌ Failed to create JIRA issue:', err);
       }
