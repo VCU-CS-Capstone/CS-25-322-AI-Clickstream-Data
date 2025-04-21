@@ -293,7 +293,7 @@ const HelpTopic = () => {
 
                       window.dataLayer.push({
                         event: 'credit_increase_requested',
-                        increase_amount: increaseAmount,
+                        inc_amount: increaseAmount,
                         new_limit: creditLimit + increaseAmount,
                         clickTime: new Date().toISOString(),
                       });
