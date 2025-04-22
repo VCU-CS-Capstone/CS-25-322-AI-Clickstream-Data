@@ -172,10 +172,9 @@ const App = () => {
               </div>
 
               <div className="jira-section">
-                <h2>📋 JIRA Integration</h2>
+                <h2></h2>
                 <JiraDashboard projectKey="MYH" />
                 <CreateIssueForm projectKey="MYH" />
-                <button onClick={handleGenerateEpics}>Generate Mock Epics</button>
               </div>
             </div>
           }
