@@ -150,8 +150,8 @@ const JiraDashboard = ({ projectKey }) => {
 
   return (
     <div className="jira-dashboard">
-      <h2>📋 JIRA Integration</h2>
-      <h3>JIRA Issues for Project: {projectKey}</h3>
+      <h2> JIRA </h2>
+      <h3>Find and Create JIRA Issues for Project: {projectKey}</h3>
 
       <input
         type="text"
