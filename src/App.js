@@ -57,12 +57,12 @@ const App = () => {
 
   const handleSearch = () => {
     const results = topics.filter((topic) =>
-      topic.name.toLowerCase().includes(searchTerm.toLowerCase())
+      topic.name.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredTopics(results);
     window.dataLayer.push({
       event: 'homepage_search',
-      search_term: searchTerm,
+      search_term: value,
       search_result_count: results.length,
       source: 'homepage_search_bar',
       clickTime: new Date().toISOString(),
@@ -147,7 +147,11 @@ const App = () => {
                   className="search-bar"
                   placeholder="Search help topics"
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setSearchTerm(value);
+                    handleSearch(value);
+                  }}
                 />
                 <button
                   className="search-icon-button"
