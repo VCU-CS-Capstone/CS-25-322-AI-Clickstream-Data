@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 import RedirectedPage from './RedirectedPage.js';
@@ -33,6 +33,7 @@ const generateSessionId = () => {
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredTopics, setFilteredTopics] = useState([]);
+  const debounceTimeout = useRef(null);
 
   const topics = [
     { name: 'Credit Cards', icon: creditCardIcon, description: 'Manage your credit card accounts' },
@@ -63,11 +64,29 @@ const App = () => {
     window.dataLayer.push({
       event: 'homepage_search',
       search_term: value,
-      search_result_count: results.length,
       source: 'homepage_search_bar',
       clickTime: new Date().toISOString(),
     });
     
+  };
+
+  const handleSearchDebounced = (value) => {
+    if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
+  
+    debounceTimeout.current = setTimeout(() => {
+      const results = topics.filter((topic) =>
+        topic.name.toLowerCase().includes(value.toLowerCase())
+      );
+      setFilteredTopics(results);
+  
+      window.dataLayer.push({
+        event: 'homepage_search',
+        search_term: value,
+        search_result_count: results.length,
+        source: 'homepage_search_bar',
+        clickTime: new Date().toISOString(),
+      });
+    }, 600); // adjust delay as needed
   };
 
   const handleButtonClick = (buttonName) => {
@@ -150,7 +169,7 @@ const App = () => {
                   onChange={(e) => {
                     const value = e.target.value;
                     setSearchTerm(value);
-                    handleSearch(value);
+                    handleSearchDebounced(value);
                   }}
                 />
                 <button
