@@ -9,14 +9,12 @@ import path from 'path';
 dotenv.config();
 const app = express();
 app.use(express.json());
-app.use(cors({origin: '*'}));
-
 app.use(cors({
   origin: 'https://cs-25-322-ai-clickstream-data.vercel.app',
   methods: ['GET', 'POST'],
   credentials: true 
 }));
-
+/*
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Success"))
   .catch((err) => {
@@ -30,7 +28,7 @@ const InteractionSchema = new mongoose.Schema({
 });
 
 export const Interaction = mongoose.model('Interaction', InteractionSchema);
-
+*/
 // GA API
 const analyticsDataClient = new BetaAnalyticsDataClient({
   keyFilename: process.env.GOOGLE_CRED || '/etc/secrets/skilful-frame-450207-b7-bc02171e8288.json',

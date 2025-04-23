@@ -71,7 +71,7 @@ const App = () => {
       buttonName: buttonName,
       clickTime: new Date().toISOString(),
     });
-    fetch('https://cs-25-322-ai-clickstream-data.onrender.com/log-click', {
+    fetch('https://cs-25-322-ai-clickstream-data.vercel.app/log-click', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -83,7 +83,7 @@ const App = () => {
   };
 
   const sendSessionData = () => {
-    fetch('https://cs-25-322-ai-clickstream-data.onrender.com/log-session', {
+    fetch('https://cs-25-322-ai-clickstream-data.vercel.app/log-session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
