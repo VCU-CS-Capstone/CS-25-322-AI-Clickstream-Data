@@ -74,20 +74,29 @@ const App = () => {
     if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
   
     debounceTimeout.current = setTimeout(() => {
-      const results = topics.filter((topic) =>
-        topic.name.toLowerCase().includes(value.toLowerCase())
-      );
-      setFilteredTopics(results);
-  
-      window.dataLayer.push({
-        event: 'homepage_search',
-        search_term: value,
-        search_result_count: results.length,
-        source: 'homepage_search_bar',
-        clickTime: new Date().toISOString(),
-      });
-    }, 600); // adjust delay as needed
+      if (value.trim() === "") {
+        setFilteredTopics(topics); 
+        window.dataLayer.push({
+          event: 'search_cleared',
+          source: 'homepage_search_bar',
+          clickTime: new Date().toISOString(),
+        });
+      } else {
+        const results = topics.filter((topic) =>
+          topic.name.toLowerCase().includes(value.toLowerCase())
+        );
+        setFilteredTopics(results);
+        window.dataLayer.push({
+          event: 'homepage_search',
+          search_term: value,
+          search_result_count: results.length,
+          source: 'homepage_search_bar',
+          clickTime: new Date().toISOString(),
+        });
+      }
+    }, 800); 
   };
+  
 
   const handleButtonClick = (buttonName) => {
     console.log(`Button clicked: ${buttonName}`);
