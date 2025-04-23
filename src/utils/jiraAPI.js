@@ -20,7 +20,7 @@ export const createIssue = async (projectKey, summary, description, issueType) =
       projectKey,
       summary,
       description,
-      issueType,
+      issuetype: issueType, // ✅ FIXED: match the backend expected key
     });
 
     console.log('✅ Created issue via proxy:', response.data);
