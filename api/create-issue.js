@@ -19,7 +19,21 @@ export default async function handler(req, res) {
         fields: {
           project: { key: projectKey },
           summary,
-          description,  // ← use plain string
+          description: {
+            type: "doc",
+            version: 1,
+            content: [
+              {
+                type: "paragraph",
+                content: [
+                  {
+                    type: "text",
+                    text: description
+                  }
+                ]
+              }
+            ]
+          },
           issuetype: { name: issuetype }
         }
       })
