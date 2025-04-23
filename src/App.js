@@ -55,7 +55,7 @@ const App = () => {
       pagePath: window.location.pathname,
     });
   }, [sessionId]);
-
+/*
   const handleSearch = (value=searchTerm) => {
     const results = topics.filter((topic) =>
       topic.name.toLowerCase().includes(value.toLowerCase())
@@ -68,7 +68,7 @@ const App = () => {
       clickTime: new Date().toISOString(),
     });
     
-  };
+  }; */
 
   const handleSearchDebounced = (value) => {
     if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
