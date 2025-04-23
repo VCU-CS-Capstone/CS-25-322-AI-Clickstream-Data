@@ -60,7 +60,14 @@ const App = () => {
       topic.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredTopics(results);
-    window.dataLayer.push({ event: 'search', search_term: searchTerm });
+    window.dataLayer.push({
+      event: 'homepage_search',
+      search_term: searchTerm,
+      search_result_count: results.length,
+      source: 'homepage_search_bar',
+      clickTime: new Date().toISOString(),
+    });
+    
   };
 
   const handleButtonClick = (buttonName) => {
