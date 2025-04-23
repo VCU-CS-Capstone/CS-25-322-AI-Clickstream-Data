@@ -55,7 +55,7 @@ const App = () => {
     });
   }, [sessionId]);
 
-  const handleSearch = () => {
+  const handleSearch = (value=searchTerm) => {
     const results = topics.filter((topic) =>
       topic.name.toLowerCase().includes(value.toLowerCase())
     );
