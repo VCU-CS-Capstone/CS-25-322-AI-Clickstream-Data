@@ -19,25 +19,10 @@ export default async function handler(req, res) {
         fields: {
           project: { key: projectKey },
           summary,
-          description: {
-            type: "doc",
-            version: 1,
-            content: [
-              {
-                type: "paragraph",
-                content: [
-                  {
-                    type: "text",
-                    text: description
-                  }
-                ]
-              }
-            ]
-          },
+          description,  // ← use plain string
           issuetype: { name: issuetype }
         }
-      }),
-      
+      })
     });
 
     const data = await response.json();
