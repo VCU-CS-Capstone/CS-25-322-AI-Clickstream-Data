@@ -185,7 +185,7 @@ const App = () => {
                   className="search-icon-button"
                   onClick={() => {
                     handleButtonClick('Search Button');
-                    handleSearch();
+                   // handleSearch();
                   }}
                 >
                   <img src={searchIcon} alt="Search" className="icon-image" />
